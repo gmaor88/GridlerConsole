@@ -7,11 +7,11 @@ public class Square {
     private eSquareSign m_CurrentSquareSign=eSquareSign.UNDEFINED;
     private eSquareSign m_TrueSquareSignValue=eSquareSign.CLEARED;
 
-    public eSquareSign getM_CurrentSquareSign() {
+    public eSquareSign getCurrentSquareSign() {
         return m_CurrentSquareSign;
     }
 
-    public eSquareSign getM_TrueSquareSignValue() {
+    public eSquareSign getTrueSquareSignValue() {
         return m_TrueSquareSignValue;
     }
 
@@ -19,7 +19,7 @@ public class Square {
         m_CurrentSquareSign = i_GivenSign;
     }
 
-    public void setM_TrueSquareSignValue(eSquareSign i_GivenSign){
+    public void setTrueSquareSignValue(eSquareSign i_GivenSign){
         m_CurrentSquareSign = i_GivenSign;
     }
 
