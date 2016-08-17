@@ -1,6 +1,9 @@
+import UI.GameManager;
+
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        GameManager Gridler = new GameManager();
+        Gridler.Run();
     }
 }

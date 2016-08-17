@@ -26,4 +26,20 @@ public class GameBoard {
     public int getF_BoardWidth() {
         return f_BoardWidth;
     }
+
+    public double getBoardCompletionPercentage() {
+        double completionPercentage = 0;
+
+        for (int i = 0; i < f_BoardHeight; i++) {
+            for (int j = 0; j < f_BoardWidth; j++) {
+                if (m_board[i][j].CheckIfCellMarkedCorrectly()) {
+                    completionPercentage++;
+                }
+            }
+        }
+
+        completionPercentage /= (f_BoardHeight * f_BoardHeight);
+
+        return  completionPercentage*100;
+    }
 }
