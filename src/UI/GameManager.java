@@ -3,6 +3,13 @@ package UI;
 import Logic.GameBoard;
 import Logic.GamePlayer;
 import Logic.Square;
+import Utils.GameLoadException;
+import Utils.InputScanner;
+import Utils.JaxBGridlerClassGenerator;
+import jaxb.GameDescriptor;
+
+import javax.xml.bind.JAXBException;
+import java.util.Scanner;
 
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
@@ -12,6 +19,7 @@ public class GameManager{
     private GamePlayer m_Player;
     private Boolean m_PlayerWantsToPlay = true;
     private Boolean m_InGame = false;
+    private Boolean m_GameReady = false;
 
     public void Run(){
         while (m_PlayerWantsToPlay){
@@ -72,11 +80,40 @@ public class GameManager{
     }
 
     private void loadNewGame(){
-        String path = getFileNameFromUser();
+        String path = getFilePathFromUser();
+
         try{
-            openFile(path);
-            ValidateFilesData();
+            GameDescriptor gameDescriptor = JaxBGridlerClassGenerator.FromXmlFileToObject(path);
+            m_GameReady = validateGameDescriptorInfo();
         }
+        catch (JAXBException e){
+            System.out.println("Illegal file.");
+        }
+        catch (GameLoadException ex){
+            System.out.println(ex.getMessage());
+        }
+        if(m_GameReady){
+            initilizeGame();
+        }
+    }
+
+    private Boolean validateGameDescriptorInfo() throws GameLoadException{
+        Boolean dataIsValid = true;
+
+        return dataIsValid;
+    }
+
+    private String getFilePathFromUser() {
+        String requestedPath;
+
+        System.out.println("Enter file path:");
+        requestedPath = InputScanner.inputScanner.next();
+
+        return requestedPath;
+    }
+
+    private void initilizeGame() {
+
     }
 
     private void startNewGame(){
