@@ -6,7 +6,7 @@ package Logic;
 public class GamePlayer {
     private final String f_Name;
     private final Boolean f_IsHuman;
-    private  final  Integer f_
+    private Integer m_MovesLimit;
     Double M_PlayerScore = (double)0;
 
     public GamePlayer(Boolean i_isHuman, String i_Name){

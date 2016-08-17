@@ -27,6 +27,18 @@ public class GameBoard {
         return f_BoardWidth;
     }
 
+    public Square getSquare(int i_Height, int i_Width){
+        if(0 < i_Height || i_Height > f_BoardHeight){
+            throw new Exception("Height Out of Bounds");
+        }
+
+        if(0 < i_Width || i_Width > f_BoardWidth){
+            throw new Exception("Width Out of Bounds");
+        }
+
+        return  m_board[i_Height][i_Width];
+    }
+
     public double getBoardCompletionPercentage() {
         double completionPercentage = 0;
 

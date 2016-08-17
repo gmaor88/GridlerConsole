@@ -2,6 +2,7 @@ package UI;
 
 import Logic.GameBoard;
 import Logic.GamePlayer;
+import Logic.Square;
 
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
@@ -85,7 +86,23 @@ public class GameManager {
     }
 
     private void printBoard() {
+        for(int i = 0; i < m_GameBoard.get_BoardHeight(); i++){
+            for(int j = 0; j < m_GameBoard.getF_BoardWidth(); j++){
+                printSign(m_GameBoard.[i][j]);
+            }
+        }
+    }
 
+    private  void printSign(Square.eSquareSign i_Sgin){
+        if(i_Sgin == Square.eSquareSign.BLACKED){
+            System.out.print("|X");
+        }
+        else if(i_Sgin == Square.eSquareSign.CLEARED){
+            System.out.print("|O");
+        }
+        else{
+            System.out.print("| ");
+        }
     }
 
     private void preformPlayerMove(){
