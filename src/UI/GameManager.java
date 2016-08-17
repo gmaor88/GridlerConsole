@@ -114,16 +114,59 @@ public class GameManager {
     }
 
     public enum eGameOptions {
-        LOAD_GAME,
-        SET_PLAYER_TYPE,
-        START_GAME,
-        DISPLAY_BORD,
-        PERFORM_MOVE,
-        DISPLAY_MOVES_LIST,
-        UNDO,
-        REDO,
-        STATISTICS,
-        QUIT
+        LOAD_GAME{
+            @Override
+            public String toString() {
+                return ("Load new game");
+            }
+        },
+        START_GAME{
+            @Override
+            public String toString() {
+                return ("Start game");
+            }
+        },
+        DISPLAY_BORD{
+        @Override
+        public String toString() {
+            return ("Display board");
+            }
+        },
+        PERFORM_MOVE{
+            @Override
+            public String toString() {
+                return ("Preform new move");
+            }
+        },
+        DISPLAY_MOVES_LIST{
+            @Override
+            public String toString() {
+                return ("Display moves list");
+            }
+        },
+        UNDO{
+            @Override
+            public String toString() {
+                return ("Undo last move");
+            }
+        },
+        REDO{
+            @Override
+            public String toString() {
+                return ("Redo move");
+            }
+        },
+        STATISTICS{
+            @Override
+            public String toString() {
+                return ("Display statistics");
+            }
+        },
+        QUIT{
+            @Override
+            public String toString() {
+                return ("Quit");
+            }
+        };
+        }
     }
-
-}
