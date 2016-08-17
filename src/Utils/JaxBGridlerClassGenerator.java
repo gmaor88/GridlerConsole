@@ -17,7 +17,7 @@ public class JaxBGridlerClassGenerator {
         JAXBContext jaxbContext = JAXBContext.newInstance(GameDescriptor.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         gameDescriptor = (GameDescriptor) jaxbUnmarshaller.unmarshal(file);
-
+        
         return gameDescriptor;
     }
 }
