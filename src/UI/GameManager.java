@@ -7,7 +7,7 @@ import Logic.Square;
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
  */
-public class GameManager {
+public class GameManager{
     private GameBoard m_GameBoard;
     private GamePlayer m_Player;
     private Boolean m_PlayerWantsToPlay = true;
