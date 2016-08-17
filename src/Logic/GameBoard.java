@@ -19,15 +19,15 @@ public class GameBoard {
         f_BoardWidth = i_BoardWidth;
     }
 
-    public int get_BoardHeight() {
+    public int getBoardHeight() {
         return f_BoardHeight;
     }
 
-    public int getF_BoardWidth() {
+    public int getBoardWidth() {
         return f_BoardWidth;
     }
 
-    public Square getSquare(int i_Height, int i_Width){
+    public Square getSquare(int i_Height, int i_Width) throws Exception{
         if(0 < i_Height || i_Height > f_BoardHeight){
             throw new Exception("Height Out of Bounds");
         }

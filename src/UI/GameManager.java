@@ -86,9 +86,14 @@ public class GameManager {
     }
 
     private void printBoard() {
-        for(int i = 0; i < m_GameBoard.get_BoardHeight(); i++){
-            for(int j = 0; j < m_GameBoard.getF_BoardWidth(); j++){
-                printSign(m_GameBoard.[i][j]);
+        for(int i = 0; i < m_GameBoard.getBoardHeight(); i++){
+            for(int j = 0; j < m_GameBoard.getBoardWidth(); j++){
+                try{
+                    printSign(m_GameBoard.getSquare(i,j).getCurrentSquareSign());
+                }
+                catch (Exception e){
+                    System.out.print(e.getMessage());
+                }
             }
         }
     }
