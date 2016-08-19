@@ -198,7 +198,22 @@ public class GameManager{
         else{
             validInput = false;
         }
+        if(!checkIfFirstSquareIsSmaller(o_rowNumS, o_colNumS,
+                o_rowNumE, o_colNumE)){
+            validInput = false;
+        }
         return validInput;
+    }
+
+    private boolean checkIfFirstSquareIsSmaller(Integer i_rowNumS, Integer i_colNumS,
+                                               Integer i_rowNumE, Integer i_colNumE) {
+        Boolean startSquareIsSmaller = true;
+
+        if (i_rowNumS>i_rowNumE || i_colNumS>i_colNumE){
+            startSquareIsSmaller = false;
+        }
+
+        return startSquareIsSmaller;
     }
 
     private Boolean validateChangeTo(String o_changeTo){
