@@ -44,7 +44,7 @@ public class GameLoader {
             rowIndex = i_GameDescriptor.getBoard().getSolution().getSquare().get(i).getRow().intValue();
             columnIndex = i_GameDescriptor.getBoard().getSolution().getSquare().get(i).getRow().intValue();
             try{
-                board.getSquare(rowIndex,columnIndex).setCurrentSquareSign(Square.eSquareSign.BLACKED);
+                board.getSquare(rowIndex,columnIndex).setTrueSquareSignValue(Square.eSquareSign.BLACKED);
             }
             catch (Exception e){
                 System.out.print(e.getMessage());
