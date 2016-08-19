@@ -6,7 +6,7 @@ import java.util.Scanner;
  * Created by Maor Gershkovitch on 8/17/2016.
  */
 public class InputScanner {
-    public static final Scanner inputScanner = new Scanner(System.in);
+    public static final Scanner scanner = new Scanner(System.in);
 
 
 }

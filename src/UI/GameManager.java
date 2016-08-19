@@ -107,7 +107,7 @@ public class GameManager{
         String requestedPath;
 
         System.out.println("Enter file path:");
-        requestedPath = InputScanner.inputScanner.next();
+        requestedPath = InputScanner.scanner.nextLine();
 
         return requestedPath;
     }
@@ -148,6 +148,31 @@ public class GameManager{
     }
 
     private void preformPlayerMove(){
+        String requstedMove;
+
+        requstedMove = InputScanner.scanner.nextLine();
+
+        try{
+            parseAndMakeAMove(requstedMove);
+        }
+        catch (IllegalArgumentException ex){
+            System.out.print(ex.getMessage());
+        }
+   }
+
+    private void parseAndMakeAMove(String i_requstedMove) {
+        Boolean isRow;
+        Integer row, col ,numOfSquaresToChange;
+        String userExplanation;
+
+        /*To ReadMe:
+        * enter move in the follwing format:rowNumS,colNumS rowNumE,colNumE b/w/n comment
+        * rowNumS,colNumS rowNumE,colNumE - enter the square number you want to start filling from
+         *use "," between row and col. then enter the square number you want to finish in.
+         * The start square must be smaller or equal to the ending square.
+        * b/w/n - Turn Squares to black white or non.
+        * סקייפ!
+        * */
 
     }
 
