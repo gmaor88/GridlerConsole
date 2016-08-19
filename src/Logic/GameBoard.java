@@ -17,6 +17,8 @@ public class GameBoard {
     public GameBoard(int i_BoardHeight, int i_BoardWidth){
         f_BoardHeight = i_BoardHeight;
         f_BoardWidth = i_BoardWidth;
+        m_VerticalSlices = new ArrayList[i_BoardWidth];
+        m_HorizontalSlices = new ArrayList[i_BoardHeight];
     }
 
     public int getBoardHeight() {
@@ -25,6 +27,14 @@ public class GameBoard {
 
     public int getBoardWidth() {
         return f_BoardWidth;
+    }
+
+    public void setVerticalSlice(int i_Width, int [] i_Blocks){
+
+    }
+
+    public void setHorizontalSlice(int i_Height, int [] i_Blocks){
+
     }
 
     public Square getSquare(int i_Height, int i_Width) throws Exception{
