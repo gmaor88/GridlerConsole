@@ -4,6 +4,8 @@ import Logic.GameBoard;
 import Logic.Square;
 import jaxb.GameDescriptor;
 
+import java.util.ArrayList;
+
 /**
  * Created by dan on 8/19/2016.
  */
@@ -59,6 +61,8 @@ public class GameLoader {
             }
 
         }
+
+        return board;
     }
 
     private int getNumberOfBlackSquare(int[] blocks) {
@@ -72,14 +76,22 @@ public class GameLoader {
     }
 
     private int[] getBlocks(String i_Blocks) {
-        int blocks[], i = 0;
-        char intermidate[];
+        int blocks[];
+        ArrayList<Integer> intermediate = new ArrayList<>(1);
+        //first we trim any whitespace
+        //then we split the string in to smaller ones with the , separator
+        //then intermediate gets the numbers from the sub strings
 
-        i_Blocks = i_Blocks.trim();
-        intermidate = i_Blocks.toCharArray();
-        for (char ch:intermidate){
-            if
+        i_Blocks = i_Blocks.replaceAll(" ","");//need to make sure it works
+        for(String str: i_Blocks.split(",")){
+            intermediate.add(Integer.parseInt(str));
         }
+
+        blocks = new int[intermediate.size()];
+        for(int i = 0; i < intermediate.size(); i++){
+            blocks[i] = intermediate.get(i);
+        }
+
         return blocks;
     }
 }
