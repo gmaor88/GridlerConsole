@@ -6,6 +6,7 @@ import Logic.Square;
 import Utils.GameLoadException;
 import Utils.InputScanner;
 import Utils.JaxBGridlerClassGenerator;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import jaxb.GameDescriptor;
 
 import javax.xml.bind.JAXBException;
@@ -148,32 +149,77 @@ public class GameManager{
     }
 
     private void preformPlayerMove(){
-        String requstedMove;
-
-        requstedMove = InputScanner.scanner.nextLine();
-
         try{
-            parseAndMakeAMove(requstedMove);
+            parseAndMakeAMove();
         }
         catch (IllegalArgumentException ex){
             System.out.print(ex.getMessage());
         }
    }
 
-    private void parseAndMakeAMove(String i_requstedMove) {
-        Boolean isRow;
-        Integer row, col ,numOfSquaresToChange;
-        String userExplanation;
+    private void parseAndMakeAMove() throws IllegalArgumentException{
+        Integer rowNumS=0, colNumS=0, rowNumE=0, colNumE=0;
+        String userComment= null, changeTo = null;
 
-        /*To ReadMe:
-        * enter move in the follwing format:rowNumS,colNumS rowNumE,colNumE b/w/n comment
+        /*ToReadMe:
+        * enter move in the following format:rowNumS colNumS rowNumE colNumE b/w/n comment
         * rowNumS,colNumS rowNumE,colNumE - enter the square number you want to start filling from
          *use "," between row and col. then enter the square number you want to finish in.
          * The start square must be smaller or equal to the ending square.
         * b/w/n - Turn Squares to black white or non.
-        * סקייפ!
-        * */
+        */
 
+        if(parseToSquares(rowNumS, colNumS, rowNumE, colNumE)){
+            if(validateChangeTo(changeTo))
+                getComment(userComment);
+            }
+        else{
+            throw new IllegalArgumentException();
+        }
+
+        //ToDo: insert all parms to logic.
+
+        printBoard();
+    }
+
+    private Boolean parseToSquares(Integer o_rowNumS, Integer o_colNumS,
+                                   Integer o_rowNumE, Integer o_colNumE){
+        Boolean validInput = true;
+
+        if(InputScanner.scanner.hasNextInt()){
+            o_rowNumS = InputScanner.scanner.nextInt();
+            if (InputScanner.scanner.hasNextInt())
+                o_colNumS = InputScanner.scanner.nextInt();
+                if (InputScanner.scanner.hasNextInt())
+                    o_rowNumE = InputScanner.scanner.nextInt();
+                    if (InputScanner.scanner.hasNextInt())
+                        o_colNumE = InputScanner.scanner.nextInt();
+        }
+        else{
+            validInput = false;
+        }
+        return validInput;
+    }
+
+    private Boolean validateChangeTo(String o_changeTo){
+        Boolean validInput = true;
+        String inputChar;
+
+        if(InputScanner.scanner.hasNext()){
+            inputChar = InputScanner.scanner.next();
+            if(inputChar == "b" || inputChar == "w" || inputChar == "n")
+                o_changeTo = inputChar;
+        }
+        else {
+            validInput = false;
+        }
+        return validInput;
+    }
+
+    private void getComment(String o_userComment) {
+        if (InputScanner.scanner.hasNext()){
+            o_userComment = InputScanner.scanner.nextLine();
+        }
     }
 
     private void printPlayersMovesList(){
