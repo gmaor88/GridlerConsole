@@ -1,6 +1,7 @@
 package Utils;
 
 import Logic.GameBoard;
+import Logic.Square;
 import jaxb.GameDescriptor;
 
 /**
@@ -42,7 +43,13 @@ public class GameLoader {
         for(int i = 0; i < numberOfBlackSquares; i++) {
             rowIndex = i_GameDescriptor.getBoard().getSolution().getSquare().get(i).getRow().intValue();
             columnIndex = i_GameDescriptor.getBoard().getSolution().getSquare().get(i).getRow().intValue();
-            board.
+            try{
+                board.getSquare(rowIndex,columnIndex).setCurrentSquareSign(Square.eSquareSign.BLACKED);
+            }
+            catch (Exception e){
+                System.out.print(e.getMessage());
+            }
+
         }
     }
 
