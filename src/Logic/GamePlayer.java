@@ -5,28 +5,30 @@ package Logic;
  */
 public class GamePlayer {
     private final String f_Name;
+    private  final String f_Id;
     private final Boolean f_IsHuman;
     private Integer m_MovesLimit;
     Double M_PlayerScore = (double)0;
 
-    public GamePlayer(Boolean i_isHuman, String i_Name){
+    public GamePlayer(Boolean i_isHuman, String i_Name, String i_Id){
         f_IsHuman = i_isHuman;
         f_Name = i_Name;
+        f_Id = i_Id;
     }
 
-    public Boolean get_IsHuman() {
+    public Boolean getIsHuman() {
         return f_IsHuman;
     }
 
-    public String getF_Name() {
+    public String getName() {
         return f_Name;
     }
 
-    public Double getM_PlayerScore() {
+    public Double getPlayerScore() {
         return M_PlayerScore;
     }
 
-    public void setM_PlayerScore(Double m_PlayerScore) {
+    public void setPlayerScore(Double m_PlayerScore) {
         M_PlayerScore = m_PlayerScore;
     }
 }
