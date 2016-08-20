@@ -8,8 +8,8 @@ public class MoveSet {
     private Integer m_StartSquareColNumber;
     private Integer m_EndSquareRowNumber;
     private Integer m_EndSquareColNumber;
-    private Square.eSquareSign m_SquareSign;
-    private String m_Comment;
+    private Square.eSquareSign m_SquareSign = Square.eSquareSign.UNDEFINED;
+    private String m_Comment = null;
 
     public MoveSet(Integer i_StartSquareRowNumber, Integer i_StartSquareColNumber,
                    Integer i_EndSquareRowNumber, Integer i_EndSquareColNumber,
