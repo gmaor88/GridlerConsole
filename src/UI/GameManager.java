@@ -132,10 +132,10 @@ public class GameManager {
         }
     }
 
-    private void printSign(Square.eSquareSign i_Sgin) {
-        if (i_Sgin == Square.eSquareSign.BLACKED) {
+    private void printSign(Square.eSquareSign i_Sign) {
+        if (i_Sign == Square.eSquareSign.BLACKED) {
             System.out.print("|X");
-        } else if (i_Sgin == Square.eSquareSign.CLEARED) {
+        } else if (i_Sign == Square.eSquareSign.CLEARED) {
             System.out.print("|O");
         } else {
             System.out.print("| ");
@@ -269,7 +269,6 @@ public class GameManager {
 
         return playersChoice;
     }
-
 
     //A parsing utill. Doesn't fit the class.
     Boolean tryParseInt(String i_Value) {
