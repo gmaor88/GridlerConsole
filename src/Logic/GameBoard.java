@@ -19,6 +19,7 @@ public class GameBoard {
         f_BoardWidth = i_BoardWidth;
         m_VerticalSlices = new ArrayList[i_BoardWidth];
         m_HorizontalSlices = new ArrayList[i_BoardHeight];
+        m_board = new Square[f_BoardHeight][f_BoardWidth];
     }
 
     public int getBoardHeight() {
@@ -30,11 +31,15 @@ public class GameBoard {
     }
 
     public void setVerticalSlice(int i_Width, int [] i_Blocks){
-
+        for(int num: i_Blocks){
+            m_VerticalSlices[i_Width].add(num);
+        }
     }
 
     public void setHorizontalSlice(int i_Height, int [] i_Blocks){
-
+        for (int num: i_Blocks){
+            m_HorizontalSlices[i_Height].add(num);
+        }
     }
 
     public Square getSquare(int i_Height, int i_Width) throws Exception{
@@ -53,10 +58,10 @@ public class GameBoard {
         MoveSet moveset = new MoveSet(i_Comment);
 
         if(i_EndRow > f_BoardHeight){
-            throw ...
+            throw new ArrayIndexOutOfBoundsException("End row is out of bounds");
         }
         else if(i_EndColumn > f_BoardWidth){
-            throw  ...
+            throw new ArrayIndexOutOfBoundsException("End column is out of bounds");
         }
 
         for(int i = i_StartRow - 1; i < i_EndRow; i++){
