@@ -1,6 +1,7 @@
 package Utils;
 
 import Logic.GameBoard;
+import Logic.GamePlayer;
 import Logic.Square;
 import jaxb.GameDescriptor;
 
@@ -10,19 +11,9 @@ import java.util.ArrayList;
  * Created by dan on 8/19/2016.
  */
 
-/*
-* 4.	יש לבצע בדיקת תקינות לקלט ולהגיב בצורה נאותה לקלט שאינו תקין.
-בדיקות התקינות שעליכם לבצע (אתם מוזמנים להגדיל ראש ולהגן מפני מקרים נוספים):
-1.	הקובץ קיים, והוא מסוג XML.
-2.	כשטוענים קובץ חדש, יש לוודא כי אין משחק שכבר מתנהל במע' (אפשרי גם ע"י חסימת פקודה מס' מלהתבצע במידה ומשחק פעיל כבר קיים במע').
-3.	כמות שורות ו/או עמודות אינה תואמת את גודל הלוח המוצהר
-4.	סך הבלוקים בשורה/עמודה גדול מגודל השורה/עמודה בהתאמה
-5.	תיאור הפתרון מפנה לשורה/עמודה שהינם מעבר לגבולות הלוח
-6.	תיאור הפתרון מכיל משבצת יותר מפעם אחת
-7.	בדיקת תקינות קלט כחלק מהאינטרקציה עם המשתמש. (למשל אם אתם מצפים לקבל את מספר השורה/עמודה כחלק מפקודה, והמשתמש הכניס מחרוזת ולא מספר – עליכם לאתר זאת, להודיע זאת למשתמש ולאפשר את המשך מהלך המשחק תוךבחירת פקודה אחרת).
-* */
+
 public class GameLoader {
-    public GameBoard load(GameDescriptor i_GameDescriptor) throws Exception{
+    public GameBoard loadBoard(GameDescriptor i_GameDescriptor) throws Exception{
         int columns, rows, blocks[], numberOfSlices, slicesId, numberOfBlackSquares;
         int columnIndex, rowIndex;
         GameBoard board;
@@ -43,14 +34,14 @@ public class GameLoader {
         for(int i = 0; i < numberOfSlices ; i++){
             blocks = getBlocks(i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getBlocks());
             slicesId = i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getId().intValue();
-            if(i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getOrientation() == "rows"){
+            if(i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getOrientation().equalsIgnoreCase("rows")){
                 if(getNumberOfBlackSquare(blocks) > columns){
                     throw new GameLoadException("Invalid number of blocks in column "+ slicesId);
                 }
 
                 board.setHorizontalSlice(slicesId,blocks);
             }
-            else if(i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getOrientation() == "columns"){
+            else if(i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getOrientation().equalsIgnoreCase("columns")){
                 if(getNumberOfBlackSquare(blocks) > rows){
                     throw new GameLoadException("Invalid number of blocks in row "+ slicesId);
                 }
@@ -65,16 +56,29 @@ public class GameLoader {
         for(int i = 0; i < numberOfBlackSquares; i++) {
             rowIndex = i_GameDescriptor.getBoard().getSolution().getSquare().get(i).getRow().intValue();
             columnIndex = i_GameDescriptor.getBoard().getSolution().getSquare().get(i).getRow().intValue();
-            try{
-                board.getSquare(rowIndex,columnIndex).setTrueSquareSignValue(Square.eSquareSign.BLACKED);
-            }
-            catch (Exception e){
-                System.out.print(e.getMessage());
-            }
-
+            board.getSquare(rowIndex,columnIndex).setTrueSquareSignValue(Square.eSquareSign.BLACKED);
         }
 
         return board;
+    }
+
+    public GamePlayer loadPlayer(GameDescriptor i_GameDescriptor){
+        GamePlayer player;
+        String playerId,playerName;
+        Integer maxNumberOfMoves;
+        boolean humanPlayer;
+        //gives you the basic option to load player data from xml file
+
+        playerId = i_GameDescriptor.getMultiPlayers().getPlayers().getPlayer().get(0).getId().toString();
+        playerName = i_GameDescriptor.getMultiPlayers().getPlayers().getPlayer().get(0).getName();
+        humanPlayer = i_GameDescriptor.getMultiPlayers().getPlayers().getPlayer().get(0).getPlayerType().equalsIgnoreCase("Human");
+        player = new GamePlayer(humanPlayer, playerName, playerId);
+        if(!humanPlayer){
+            maxNumberOfMoves = Integer.parseInt(i_GameDescriptor.getMultiPlayers().getMoves());
+            player.setMoveLimit(maxNumberOfMoves);
+        }
+
+        return  player;
     }
 
     private int getNumberOfBlackSquare(int[] blocks) {
@@ -87,14 +91,22 @@ public class GameLoader {
         return  sum - 1;
     }
 
-    private int[] getBlocks(String i_Blocks) {
+    private int[] getBlocks(String i_Blocks) throws GameLoadException {
         int blocks[];
+        char ch;
         ArrayList<Integer> intermediate = new ArrayList<>(1);
         //first we trim any whitespace
         //then we split the string in to smaller ones with the , separator
         //then intermediate gets the numbers from the sub strings
 
-        i_Blocks = i_Blocks.replaceAll(" ","");//need to make sure it works
+        i_Blocks = i_Blocks.replaceAll(" ","");
+        for(int i = 0; i < i_Blocks.length(); i++){
+            ch = i_Blocks.charAt(i);
+            if(('9' < ch || ch < '0') && ch != ','){
+                throw new GameLoadException("Invalid string of blocks");
+            }
+        }
+
         for(String str: i_Blocks.split(",")){
             intermediate.add(Integer.parseInt(str));
         }
