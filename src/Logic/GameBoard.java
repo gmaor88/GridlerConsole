@@ -49,6 +49,26 @@ public class GameBoard {
         return  m_board[i_Height][i_Width];
     }
 
+    public MoveSet insert(int i_StartRow, int i_StartColumn, int i_EndRow, int i_EndColumn, Square.eSquareSign i_Sign, String i_Comment){
+        MoveSet moveset = new MoveSet(i_Comment);
+
+        if(i_EndRow > f_BoardHeight){
+            throw ...
+        }
+        else if(i_EndColumn > f_BoardWidth){
+            throw  ...
+        }
+
+        for(int i = i_StartRow - 1; i < i_EndRow; i++){
+            for(int j = i_StartColumn - 1; j < i_EndColumn; j++){
+                moveset.AddNewPoint(i, j, m_board[i][j].getCurrentSquareSign());
+                m_board[i][j].setCurrentSquareSign(i_Sign);
+            }
+        }
+
+        return moveset;
+    }
+
     public double getBoardCompletionPercentage() {
         double completionPercentage = 0;
 
