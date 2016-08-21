@@ -20,8 +20,9 @@ public class GameManager {
     private Boolean m_PlayerWantsToPlay = true;
     private Boolean m_InGame = false;
     private Boolean m_GameReady = false;
-    private ArrayList<MoveSet> m_UndoList;
-    private ArrayList<MoveSet> m_RedoList;
+
+    public GameManager() {
+    }
 
     public void Run() {
         while (m_PlayerWantsToPlay) {

@@ -11,6 +11,8 @@ public class MoveSet {
     private Square.eSquareSign m_SquareSign = Square.eSquareSign.UNDEFINED;
     private String m_Comment = null;
 
+    public MoveSet(){}
+
     public MoveSet(Integer i_StartSquareRowNumber, Integer i_StartSquareColNumber,
                    Integer i_EndSquareRowNumber, Integer i_EndSquareColNumber,
                    Square.eSquareSign i_Sign, String i_Comment){
