@@ -1,15 +1,13 @@
 package UI;
 
-import Logic.GameBoard;
-import Logic.GamePlayer;
-import Logic.MoveSet;
-import Logic.Square;
+import Logic.*;
 import Utils.GameLoadException;
 import Utils.InputScanner;
 import Utils.JaxBGridlerClassGenerator;
 import jaxb.GameDescriptor;
 import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
@@ -17,6 +15,8 @@ import java.util.ArrayList;
 public class GameManager {
     private GameBoard m_GameBoard;
     private GamePlayer m_Player;
+    private LinkedList<MoveSet> m_UndoList = new LinkedList<>();
+    private LinkedList<MoveSet> m_RedoList = new LinkedList<>();
     private Boolean m_PlayerWantsToPlay = true;
     private Boolean m_InGame = false;
     private Boolean m_GameReady = false;
@@ -154,7 +154,7 @@ public class GameManager {
     private void parseAndMakeAMove() throws IllegalArgumentException {
         Integer rowNumS = 0, colNumS = 0, rowNumE = 0, colNumE = 0;
         String userComment = null, changeTo = null;
-        Square.eSquareSign requstedSign;
+        Square.eSquareSign requestedSign = Square.eSquareSign.UNDEFINED;
 
         /*ToReadMe:
         * enter move in the following format:rowNumS colNumS rowNumE colNumE b/c/u comment
@@ -164,24 +164,26 @@ public class GameManager {
         * b/c/u - Turn Squares to black, cleared or undefined.
         */
 
-        if (parseToSquares(rowNumS, colNumS, rowNumE, colNumE)) {
-            if (validateChangeTo(changeTo)){
-                if (changeTo == "b")
-                    requstedSign = Square.eSquareSign.BLACKED;
-                else if (changeTo == "c")
-                    requstedSign = Square.eSquareSign.CLEARED;
-                else
-                    requstedSign = Square.eSquareSign.UNDEFINED;
-                getComment(userComment);
-            }
-        }
-        else {
+        if (!parseToSquares(rowNumS, colNumS, rowNumE, colNumE)) {
             throw new IllegalArgumentException();
         }
 
-        //ToDo: insert all parms to logic.
+        if (!validateChangeTo(changeTo)) {
+            throw new IllegalArgumentException();
+        }
 
-        printBoard();
+        if (changeTo.equalsIgnoreCase("b")) {
+            requestedSign = Square.eSquareSign.BLACKED;
+        }
+        else if (changeTo.equalsIgnoreCase("c")) {
+            requestedSign = Square.eSquareSign.CLEARED;
+        }
+
+        getComment(userComment);
+
+        m_UndoList.add(m_GameBoard.insert(rowNumS, colNumS, rowNumE, colNumE, requestedSign, userComment));
+        m_Player.insertMoveToMoveList(rowNumS, colNumS, rowNumE, colNumE, requestedSign, userComment);
+        m_RedoList.clear();
     }
 
     private Boolean parseToSquares(Integer o_rowNumS, Integer o_colNumS,
@@ -244,10 +246,41 @@ public class GameManager {
     }
 
     private void preformUndo() {
+        if(m_UndoList.isEmpty()){
+            System.out.print("Undo unavailable");
+            return;
+        }
+
+        try {
+            m_RedoList.addFirst(undoRedoHandler(m_UndoList));
+        }
+        catch (Exception e){
+            System.out.print(e.getMessage());
+        }
     }
 
     private void preformRedo() {
+        if(m_RedoList.isEmpty()){
+            System.out.print("Redo unavailable");
+            return;
+        }
 
+        try {
+            m_UndoList.addFirst(undoRedoHandler(m_RedoList));
+        }
+        catch (Exception e){
+            System.out.print(e.getMessage());
+        }
+    }
+
+    private MoveSet undoRedoHandler(LinkedList<MoveSet> i_MoveSetList) throws Exception{
+        MoveSet moveSet = new MoveSet(i_MoveSetList.getFirst().getComment());
+        for(Point point: i_MoveSetList.getFirst().getPointsList()){
+            moveSet.AddNewPoint(point);
+            m_GameBoard.getSquare(point.getRowCord(), point.getColCord()).setCurrentSquareSign(point.getSign());
+        }
+
+        return moveSet;
     }
 
     private void printStatistics() {
@@ -256,9 +289,9 @@ public class GameManager {
 
     private eGameOptions getPlayersChoiceForMenu() {
         eGameOptions playersChoice = eGameOptions.START_GAME;
-        String input = InputScanner.scanner.nextLine();
+        String input;
         Integer inputAsNum = 0, minVal = eGameOptions.LOAD_GAME.getOrdinalPosition(),
-                maxVal = eGameOptions.QUIT.getOrdinalPosition();//Find A Way To Use with enum methods
+                maxVal = eGameOptions.QUIT.getOrdinalPosition();
 
         if (m_InGame) {
             minVal = eGameOptions.DISPLAY_BORD.getOrdinalPosition();

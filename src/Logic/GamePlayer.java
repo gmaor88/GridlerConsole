@@ -1,5 +1,7 @@
 package Logic;
 
+import java.util.LinkedList;
+
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
  */
@@ -8,7 +10,8 @@ public class GamePlayer {
     private  final String f_Id;
     private final Boolean f_IsHuman;
     private Integer m_MoveLimit;
-    Double M_PlayerScore = (double)0;
+    private Double m_BoardFillPercentage = 0.0;
+    private LinkedList<String> m_MoveList = new LinkedList();
 
     public GamePlayer(Boolean i_isHuman, String i_Name, String i_Id){
         f_IsHuman = i_isHuman;
@@ -20,6 +23,14 @@ public class GamePlayer {
         m_MoveLimit = i_MoveLimit;
     }
 
+    public LinkedList<String> getMoveList(){
+        return m_MoveList;
+    }
+
+    public  void insertMoveToMoveList(int i_StartRow, int i_StartColumn, int i_EndRow, int i_EndColumn, Square.eSquareSign i_Sign, String i_Comment){
+        m_MoveList.addFirst(i_StartRow + "," + i_StartColumn + " " + i_EndRow + "," + i_EndColumn + " " + i_Sign + " " + i_Comment);
+    }
+
     public Boolean getIsHuman() {
         return f_IsHuman;
     }
@@ -28,11 +39,11 @@ public class GamePlayer {
         return f_Name;
     }
 
-    public Double getPlayerScore() {
-        return M_PlayerScore;
+    public Double getBoardFillPracentage() {
+        return m_BoardFillPercentage;
     }
 
-    public void setPlayerScore(Double m_PlayerScore) {
-        M_PlayerScore = m_PlayerScore;
+    public void updateBoardFillPracentage(Double i_BoardFillPercentage) {
+        m_BoardFillPercentage = i_BoardFillPercentage;
     }
 }
