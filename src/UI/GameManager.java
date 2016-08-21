@@ -154,19 +154,28 @@ public class GameManager {
     private void parseAndMakeAMove() throws IllegalArgumentException {
         Integer rowNumS = 0, colNumS = 0, rowNumE = 0, colNumE = 0;
         String userComment = null, changeTo = null;
+        Square.eSquareSign requstedSign;
 
         /*ToReadMe:
-        * enter move in the following format:rowNumS colNumS rowNumE colNumE b/w/n comment
+        * enter move in the following format:rowNumS colNumS rowNumE colNumE b/c/u comment
         * rowNumS,colNumS rowNumE,colNumE - enter the square number you want to start filling from
          *use "," between row and col. then enter the square number you want to finish in.
          * The start square must be smaller or equal to the ending square.
-        * b/w/n - Turn Squares to black white or non.
+        * b/c/u - Turn Squares to black, cleared or undefined.
         */
 
         if (parseToSquares(rowNumS, colNumS, rowNumE, colNumE)) {
-            if (validateChangeTo(changeTo))
+            if (validateChangeTo(changeTo)){
+                if (changeTo == "b")
+                    requstedSign = Square.eSquareSign.BLACKED;
+                else if (changeTo == "c")
+                    requstedSign = Square.eSquareSign.CLEARED;
+                else
+                    requstedSign = Square.eSquareSign.UNDEFINED;
                 getComment(userComment);
-        } else {
+            }
+        }
+        else {
             throw new IllegalArgumentException();
         }
 
@@ -214,9 +223,11 @@ public class GameManager {
 
         if (InputScanner.scanner.hasNext()) {
             inputChar = InputScanner.scanner.next();
-            if (inputChar == "b" || inputChar == "w" || inputChar == "n")
+            if (inputChar == "b" || inputChar == "c" || inputChar == "u") {
                 o_changeTo = inputChar;
-        } else {
+            }
+        }
+        else {
             validInput = false;
         }
         return validInput;
