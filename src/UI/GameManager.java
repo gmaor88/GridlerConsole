@@ -8,7 +8,7 @@ import jaxb.GameDescriptor;
 import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Timer;
+import java.util.Random;
 
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
@@ -21,7 +21,6 @@ public class GameManager {
     private Boolean m_PlayerWantsToPlay = true;
     private Boolean m_InGame = false;
     private Boolean m_GameReady = false;
-    private Timer m_GameDurationTimer = new Timer();
 
     public GameManager() {
     }
@@ -217,8 +216,7 @@ public class GameManager {
                                                 Integer i_rowNumE, Integer i_colNumE) {
         Boolean startSquareIsSmaller = true;
 
-        if ((i_rowNumS > i_rowNumE || i_colNumS > i_colNumE) &&
-                (i_rowNumS < 1)) {
+        if (i_rowNumS > i_rowNumE || i_colNumS > i_colNumE) {
             startSquareIsSmaller = false;
         }
 
@@ -330,6 +328,66 @@ public class GameManager {
         }
 
         return playersChoice;
+    }
+
+    private void AiPlay(){
+        Random rand = new Random();
+        double percentage = 0;
+        int startRow,startCol, endRow, endCol;
+        Square.eSquareSign sign;
+
+        while (m_Player.checkIfPlayerHasMovesLeft() && m_GameBoard.getBoardCompletionPercentage() != 100){
+            sign = randSign(rand);
+            startRow = rand.nextInt(m_GameBoard.getBoardHeight()) + 1;
+            endRow = getRandomEndRowOrCol(startRow,m_GameBoard.getBoardHeight(),rand);
+            startCol = rand.nextInt(m_GameBoard.getBoardWidth()) + 1;
+            endCol = getRandomEndRowOrCol(startCol,m_GameBoard.getBoardWidth(),rand);
+            try {
+                m_UndoList.addFirst(m_GameBoard.insert(startRow,startCol,endRow,endCol,sign,"Pc"));
+                m_RedoList.clear();
+                m_Player.insertMoveToMoveList(startRow,startCol,endRow,endCol,sign,"Pc");
+            }
+            catch (Exception e){
+                System.out.print(e.getMessage());
+                return;
+            }
+
+            if(percentage <= m_Player.getBoardFillPracentage()){
+                preformUndo();
+                m_Player.incrementNumOfUndos();
+            }
+            else{
+                printBoard();
+                percentage = m_Player.getBoardFillPracentage();
+            }
+        }
+    }
+
+    private int getRandomEndRowOrCol(int i_Start, int i_Limit, Random i_Rand) {
+        int end = i_Rand.nextInt(i_Limit) + 1;
+
+        if(i_Start > end){
+            end = i_Start;
+        }
+
+        return end;
+    }
+
+    private Square.eSquareSign randSign(Random i_Rand) {
+        Square.eSquareSign sign;
+        int numSign = i_Rand.nextInt(3) + 1;
+
+        if(numSign == 1){
+            sign = Square.eSquareSign.BLACKED;
+        }
+        else if(numSign == 2){
+            sign = Square.eSquareSign.CLEARED;
+        }
+        else {
+            sign = Square.eSquareSign.UNDEFINED;
+        }
+
+        return sign;
     }
 
     //A parsing utill. Doesn't fit the class.
