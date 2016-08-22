@@ -21,7 +21,7 @@ public class GameManager {
     private Boolean m_PlayerWantsToPlay = true;
     private Boolean m_InGame = false;
     private Boolean m_GameReady = false;
-    private Time m_GameDurationTimer;
+    private Long m_GameDurationTimer;
 
     public GameManager() {
     }
@@ -119,6 +119,7 @@ public class GameManager {
 
     private void startNewGame() {
         m_InGame = true;
+        m_GameDurationTimer = System.currentTimeMillis();
 
         printBoard();
     }
@@ -296,10 +297,12 @@ public class GameManager {
     }
 
     private void printStatistics() {
+        Long currentTime = System.currentTimeMillis();
+
         System.out.print("Number of Moves played: " + m_Player.getNumOfMovesMade());
         System.out.print("Number of Undo's made: " + m_Player.getNumOfUndoMade());
         System.out.print("Number of Redo's made: " + m_Player.getNumOfRedoMade());
-        System.out.print("Play time: " +  + "seconds"); //add time
+        System.out.print("Play time: " + ((currentTime - m_GameDurationTimer) * 1000) + "seconds");
         System.out.print("Score: " + m_Player.getBoardFillPracentage());
     }
 
