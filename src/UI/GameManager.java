@@ -2,11 +2,13 @@ package UI;
 
 import Logic.*;
 import Utils.GameLoadException;
+import Utils.GameLoader;
 import Utils.InputScanner;
 import Utils.JaxBGridlerClassGenerator;
 import jaxb.GameDescriptor;
 import javax.xml.bind.JAXBException;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
@@ -85,21 +87,54 @@ public class GameManager {
 
         try {
             GameDescriptor gameDescriptor = JaxBGridlerClassGenerator.FromXmlFileToObject(path);
-            m_GameReady = validateGameDescriptorInfo();
+            validateGameDescriptorInfo(gameDescriptor);
+            loadPlayerData(gameDescriptor);
         } catch (JAXBException e) {
             System.out.println("Illegal file.");
+            return;
         } catch (GameLoadException ex) {
             System.out.println(ex.getMessage());
-        }
-        if (m_GameReady) {
-            initializeGame();
+            return;
         }
     }
 
-    private Boolean validateGameDescriptorInfo() throws GameLoadException {
-        Boolean dataIsValid = true;
+    private void loadPlayerData(GameDescriptor i_GameDescriptor) throws GameLoadException {
+        String userChoice;
+        boolean validInput;
 
-        return dataIsValid;
+        do {
+            System.out.print("Would you like to load player data from file? y/n");
+            userChoice = InputScanner.scanner.nextLine();
+            validInput = userChoice.equalsIgnoreCase("y") || userChoice.equalsIgnoreCase("n");
+        }while (validInput);
+
+        if(userChoice.equalsIgnoreCase("y")){
+            GameLoader gameLoader = new GameLoader();
+            m_Player = gameLoader.loadPlayer(i_GameDescriptor);
+        }
+        else{
+            getPlayerDataFromUser();
+        }
+    }
+
+    private void getPlayerDataFromUser() {
+       String playerName, playerId, humanPLayer;
+        int movesLimit;
+
+        System.out.print("Please enter player name");
+        playerName = InputScanner.scanner.nextLine();
+
+        m_Player = new GamePlayer(humanPLayer.equalsIgnoreCase("y"), playerName, playerId);
+        if(humanPLayer.equalsIgnoreCase("y")){
+            System.out.print("Please Enter Pc Move Limit");
+            
+        }
+    }
+
+    private void validateGameDescriptorInfo(GameDescriptor i_GameDescriptor) throws GameLoadException {
+        GameLoader gameloader = new GameLoader();
+
+        m_GameBoard = gameloader.loadBoard(i_GameDescriptor);
     }
 
     private String getFilePathFromUser() {

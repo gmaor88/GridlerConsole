@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 
 public class GameLoader {
-    public GameBoard loadBoard(GameDescriptor i_GameDescriptor) throws Exception{
+    public GameBoard loadBoard(GameDescriptor i_GameDescriptor) throws GameLoadException{
         int columns, rows, blocks[], numberOfSlices, slicesId, numberOfBlackSquares;
         int columnIndex, rowIndex;
         GameBoard board;
@@ -56,7 +56,12 @@ public class GameLoader {
         for(int i = 0; i < numberOfBlackSquares; i++) {
             rowIndex = i_GameDescriptor.getBoard().getSolution().getSquare().get(i).getRow().intValue();
             columnIndex = i_GameDescriptor.getBoard().getSolution().getSquare().get(i).getRow().intValue();
-            board.getSquare(rowIndex,columnIndex).setTrueSquareSignValue(Square.eSquareSign.BLACKED);
+            try {
+                board.getSquare(rowIndex, columnIndex).setTrueSquareSignValue(Square.eSquareSign.BLACKED);
+            }
+            catch (Exception e){
+                throw new GameLoadException(e.getMessage());
+            }
         }
 
         return board;
