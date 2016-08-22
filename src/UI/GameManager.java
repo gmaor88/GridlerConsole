@@ -275,8 +275,11 @@ public class GameManager {
 
     private MoveSet undoRedoHandler(LinkedList<MoveSet> i_MoveSetList) throws Exception{
         MoveSet moveSet = new MoveSet(i_MoveSetList.getFirst().getComment());
+        Square.eSquareSign sign;
+
         for(Point point: i_MoveSetList.getFirst().getPointsList()){
-            moveSet.AddNewPoint(point);
+            sign = m_GameBoard.getSquare(point.getRowCord(), point.getColCord()).getCurrentSquareSign();
+            moveSet.AddNewPoint(point.getRowCord(),point.getColCord(),sign);
             m_GameBoard.getSquare(point.getRowCord(), point.getColCord()).setCurrentSquareSign(point.getSign());
         }
 
