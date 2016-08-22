@@ -9,7 +9,7 @@ public class GamePlayer {
     private final String f_Name;
     private  final String f_Id;
     private final Boolean f_IsHuman;
-    private Integer m_MoveLimit;
+    private Integer m_MovesLimit;
     private Double m_BoardFillPercentage = 0.0;
     private LinkedList<String> m_MoveList = new LinkedList();
     private Integer m_NumOfMovesMade = 0;
@@ -23,7 +23,7 @@ public class GamePlayer {
     }
 
     public void setMoveLimit(Integer i_MoveLimit){
-        m_MoveLimit = i_MoveLimit;
+        m_MovesLimit = i_MoveLimit;
     }
 
     public LinkedList<String> getMoveList(){
@@ -53,8 +53,8 @@ public class GamePlayer {
         m_BoardFillPercentage = i_BoardFillPercentage;
     }
 
-    public Integer getMoveLimit() {
-        return m_MoveLimit;
+    public Integer getMovesLimit() {
+        return m_MovesLimit;
     }
 
     public Integer getNumOfMovesMade() {
@@ -67,5 +67,15 @@ public class GamePlayer {
 
     public Integer getNumOfRedoMade() {
         return m_NumOfRedoMade;
+    }
+
+    public Boolean checkIfPlayerHasMovesLeft(){
+        Boolean playerHasMoveLeft = true;
+
+        if(m_NumOfMovesMade >= m_MovesLimit) {
+            playerHasMoveLeft = false;
+        }
+
+        return playerHasMoveLeft;
     }
 }
