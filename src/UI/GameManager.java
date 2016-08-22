@@ -5,6 +5,7 @@ import Utils.*;
 import jaxb.GameDescriptor;
 import javax.xml.bind.JAXBException;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -175,9 +176,23 @@ public class GameManager {
                     printSign(m_GameBoard.getSquare(i, j).getCurrentSquareSign());
                 } catch (Exception e) {
                     System.out.print(e.getMessage());
+                    return;
                 }
             }
+
+            System.out.print("|");
+            for(Integer j:m_GameBoard.getVerticalSlice(i)){
+                System.out.print(j.toString() + " ");//todo new cast insted of Integer that will tell us if the block might be on the board and make it print in bold
+            }
+
+            System.out.println();
+            PrintSeparator();
         }
+
+        
+    }
+
+    private void PrintSeparator() {
     }
 
     private void printSign(Square.eSquareSign i_Sign) {
@@ -198,6 +213,66 @@ public class GameManager {
         } catch (IllegalArgumentException ex) {
             System.out.print(ex.getMessage());
         }
+    }
+
+    private void AiPlay(){
+        Random rand = new Random();
+        double percentage = 0;
+        int startRow,startCol, endRow, endCol;
+        Square.eSquareSign sign;
+
+        while (m_Player.checkIfPlayerHasMovesLeft() && m_GameBoard.getBoardCompletionPercentage() != 100){
+            sign = randSign(rand);
+            startRow = rand.nextInt(m_GameBoard.getBoardHeight()) + 1;
+            endRow = getRandomEndRowOrCol(startRow,m_GameBoard.getBoardHeight(),rand);
+            startCol = rand.nextInt(m_GameBoard.getBoardWidth()) + 1;
+            endCol = getRandomEndRowOrCol(startCol,m_GameBoard.getBoardWidth(),rand);
+            try {
+                m_UndoList.addFirst(m_GameBoard.insert(startRow,startCol,endRow,endCol,sign,"Pc"));
+                m_RedoList.clear();
+                m_Player.insertMoveToMoveList(startRow,startCol,endRow,endCol,sign,"Pc");
+            }
+            catch (Exception e){
+                System.out.print(e.getMessage());
+                return;
+            }
+
+            if(percentage <= m_GameBoard.getBoardCompletionPercentage()){
+                preformUndo();
+                m_Player.incrementNumOfUndos();
+            }
+            else{
+                printBoard();
+                percentage = m_GameBoard.getBoardCompletionPercentage();
+            }
+        }
+    }
+
+    private int getRandomEndRowOrCol(int i_Start, int i_Limit, Random i_Rand) {
+        int end = i_Rand.nextInt(i_Limit) + 1;
+
+        if(i_Start > end){
+            end = i_Start;
+        }
+
+        return end;
+    }
+
+    private Square.eSquareSign randSign(Random i_Rand) {
+        Square.eSquareSign sign;
+        int numSign = i_Rand.nextInt(3) + 1;
+
+        if(numSign == 1){
+            sign = Square.eSquareSign.BLACKED;
+        }
+        else if(numSign == 2){
+            sign = Square.eSquareSign.CLEARED;
+        }
+        else {
+            sign = Square.eSquareSign.UNDEFINED;
+        }
+
+        return sign;
     }
 
     private void parseAndMakeAMove() throws IllegalArgumentException {
@@ -351,7 +426,7 @@ public class GameManager {
         System.out.print("Number of Undo's made: " + m_Player.getNumOfUndoMade());
         System.out.print("Number of Redo's made: " + m_Player.getNumOfRedoMade());
         System.out.print("Play time: " + ((currentTime - m_GameDurationTimer) * 1000) + "seconds");
-        System.out.print("Score: " + m_Player.getBoardFillPracentage());
+        System.out.print("Score: " + m_GameBoard.getBoardCompletionPercentage());
     }
 
     private eGameOptions getPlayersChoiceForMenu() {

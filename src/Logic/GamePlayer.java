@@ -10,7 +10,6 @@ public class GamePlayer {
     private  final String f_Id;
     private final Boolean f_IsHuman;
     private Integer m_MovesLimit = 0;
-    private Double m_BoardFillPercentage = 0.0;
     private LinkedList<String> m_MoveList = new LinkedList();
     private Integer m_NumOfMovesMade = 0;
     private Integer m_NumOfUndoMade = 0;
@@ -21,6 +20,8 @@ public class GamePlayer {
         f_Name = i_Name;
         f_Id = i_Id;
     }
+
+    public  String getId(){return  f_Id;}
 
     public void setMoveLimit(Integer i_MoveLimit){
         m_MovesLimit = i_MoveLimit;
@@ -43,14 +44,6 @@ public class GamePlayer {
 
     public String getName() {
         return f_Name;
-    }
-
-    public Double getBoardFillPracentage() {
-        return m_BoardFillPercentage;
-    }
-
-    public void updateBoardFillPracentage(Double i_BoardFillPercentage) {
-        m_BoardFillPercentage = i_BoardFillPercentage;
     }
 
     public Integer getMovesLimit() {

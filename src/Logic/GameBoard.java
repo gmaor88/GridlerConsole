@@ -36,10 +36,18 @@ public class GameBoard {
         }
     }
 
+    public  ArrayList<Integer> getVerticalSlice(int i_Width){
+        return  m_VerticalSlices[i_Width];
+    }
+
     public void setHorizontalSlice(int i_Height, int [] i_Blocks){
         for (int num: i_Blocks){
             m_HorizontalSlices[i_Height].add(num);
         }
+    }
+
+    public  ArrayList<Integer> getHorizontalSlice(int i_Height){
+        return  m_VerticalSlices[i_Height];
     }
 
     public Square getSquare(int i_Height, int i_Width) throws Exception{
