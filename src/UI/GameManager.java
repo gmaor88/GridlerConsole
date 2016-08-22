@@ -6,8 +6,8 @@ import Utils.InputScanner;
 import Utils.JaxBGridlerClassGenerator;
 import jaxb.GameDescriptor;
 import javax.xml.bind.JAXBException;
-import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Timer;
 
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
@@ -20,6 +20,7 @@ public class GameManager {
     private Boolean m_PlayerWantsToPlay = true;
     private Boolean m_InGame = false;
     private Boolean m_GameReady = false;
+    private Timer m_GameDurationTimer = new Timer();
 
     public GameManager() {
     }
@@ -212,7 +213,8 @@ public class GameManager {
                                                 Integer i_rowNumE, Integer i_colNumE) {
         Boolean startSquareIsSmaller = true;
 
-        if (i_rowNumS > i_rowNumE || i_colNumS > i_colNumE) {
+        if ((i_rowNumS > i_rowNumE || i_colNumS > i_colNumE) &&
+                (i_rowNumS < 1)) {
             startSquareIsSmaller = false;
         }
 
