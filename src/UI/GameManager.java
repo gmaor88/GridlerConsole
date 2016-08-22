@@ -118,11 +118,20 @@ public class GameManager {
     }
 
     private void getPlayerDataFromUser() {
-       String playerName, playerId, humanPLayer;
+       String playerName, playerId, humanPLayer, userChoice;
+        Boolean validInput;
         int movesLimit;
 
         System.out.print("Please enter player name");
         playerName = InputScanner.scanner.nextLine();
+        System.out.print("Please enter player ID");
+        playerId = InputScanner.scanner.nextLine();
+
+        do {
+            System.out.print("Human player? y/n");
+            userChoice = InputScanner.scanner.nextLine();
+            validInput = userChoice.equalsIgnoreCase("y") || userChoice.equalsIgnoreCase("n");
+        }while (validInput);
 
         m_Player = new GamePlayer(humanPLayer.equalsIgnoreCase("y"), playerName, playerId);
         if(humanPLayer.equalsIgnoreCase("y")){
@@ -380,7 +389,6 @@ public class GameManager {
             return false;
         }
     }
-
 
     private enum eGameOptions {
 

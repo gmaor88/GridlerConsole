@@ -9,7 +9,7 @@ public class GamePlayer {
     private final String f_Name;
     private  final String f_Id;
     private final Boolean f_IsHuman;
-    private Integer m_MovesLimit;
+    private Integer m_MovesLimit = 0;
     private Double m_BoardFillPercentage = 0.0;
     private LinkedList<String> m_MoveList = new LinkedList();
     private Integer m_NumOfMovesMade = 0;
