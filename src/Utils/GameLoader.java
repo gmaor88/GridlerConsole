@@ -59,7 +59,7 @@ public class GameLoader {
             try {
                 board.getSquare(rowIndex, columnIndex).setTrueSquareSignValue(Square.eSquareSign.BLACKED);
             }
-            catch (Exception e){
+            catch (ArrayIndexOutOfBoundsException e){
                 throw new GameLoadException(e.getMessage());
             }
         }

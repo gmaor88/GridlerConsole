@@ -57,19 +57,19 @@ public class GameBoard {
         return  m_VerticalSlices[i_Height];
     }
 
-    public Square getSquare(int i_Height, int i_Width) throws Exception{
+    public Square getSquare(int i_Height, int i_Width) throws ArrayIndexOutOfBoundsException{
         if(0 < i_Height || i_Height > f_BoardHeight){
-            throw new Exception("Height Out of Bounds");
+            throw new ArrayIndexOutOfBoundsException ("Height Out of Bounds");
         }
 
         if(0 < i_Width || i_Width > f_BoardWidth){
-            throw new Exception("Width Out of Bounds");
+            throw new ArrayIndexOutOfBoundsException ("Width Out of Bounds");
         }
 
         return  m_board[i_Height][i_Width];
     }
 
-    public MoveSet insert(int i_StartRow, int i_StartColumn, int i_EndRow, int i_EndColumn, Square.eSquareSign i_Sign, String i_Comment){
+    public MoveSet insert(int i_StartRow, int i_StartColumn, int i_EndRow, int i_EndColumn, Square.eSquareSign i_Sign, String i_Comment) throws  ArrayIndexOutOfBoundsException{
         MoveSet moveset = new MoveSet(i_Comment);
 
         if(i_EndRow > f_BoardHeight){
