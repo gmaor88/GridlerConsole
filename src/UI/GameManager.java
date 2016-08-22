@@ -6,8 +6,6 @@ import Utils.InputScanner;
 import Utils.JaxBGridlerClassGenerator;
 import jaxb.GameDescriptor;
 import javax.xml.bind.JAXBException;
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -94,7 +92,7 @@ public class GameManager {
             System.out.println(ex.getMessage());
         }
         if (m_GameReady) {
-            initilizeGame();
+            initializeGame();
         }
     }
 
@@ -113,7 +111,7 @@ public class GameManager {
         return requestedPath;
     }
 
-    private void initilizeGame() {
+    private void initializeGame() {
 
     }
 
@@ -248,7 +246,9 @@ public class GameManager {
     }
 
     private void printPlayersMovesList() {
-
+        for(String move : m_Player.getMoveList()){
+            System.out.print(move);
+        }
     }
 
     private void preformUndo() {
@@ -259,6 +259,7 @@ public class GameManager {
 
         try {
             m_RedoList.addFirst(undoRedoHandler(m_UndoList));
+            m_Player.incrementNumOfUndos();
         }
         catch (Exception e){
             System.out.print(e.getMessage());
@@ -275,6 +276,7 @@ public class GameManager {
 
         try {
             m_UndoList.addFirst(undoRedoHandler(m_RedoList));
+            m_Player.incrementNumOfRedos();
         }
         catch (Exception e){
             System.out.print(e.getMessage());
