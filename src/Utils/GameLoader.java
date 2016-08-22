@@ -78,7 +78,7 @@ public class GameLoader {
         playerName = i_GameDescriptor.getMultiPlayers().getPlayers().getPlayer().get(0).getName();
         humanPlayer = i_GameDescriptor.getMultiPlayers().getPlayers().getPlayer().get(0).getPlayerType().equalsIgnoreCase("Human");
         player = new GamePlayer(humanPlayer, playerName, playerId);
-        if(!humanPlayer){
+        if(!humanPlayer && Tools.tryParseInt(i_GameDescriptor.getMultiPlayers().getMoves())){
             maxNumberOfMoves = Integer.parseInt(i_GameDescriptor.getMultiPlayers().getMoves());
             player.setMoveLimit(maxNumberOfMoves);
         }
@@ -113,7 +113,9 @@ public class GameLoader {
         }
 
         for(String str: i_Blocks.split(",")){
-            intermediate.add(Integer.parseInt(str));
+            if(Tools.tryParseInt(str)) {
+                intermediate.add(Integer.parseInt(str));
+            }
         }
 
         blocks = new int[intermediate.size()];

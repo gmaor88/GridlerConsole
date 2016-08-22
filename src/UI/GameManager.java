@@ -1,10 +1,7 @@
 package UI;
 
 import Logic.*;
-import Utils.GameLoadException;
-import Utils.GameLoader;
-import Utils.InputScanner;
-import Utils.JaxBGridlerClassGenerator;
+import Utils.*;
 import jaxb.GameDescriptor;
 import javax.xml.bind.JAXBException;
 import java.util.LinkedList;
@@ -91,10 +88,8 @@ public class GameManager {
             loadPlayerData(gameDescriptor);
         } catch (JAXBException e) {
             System.out.println("Illegal file.");
-            return;
         } catch (GameLoadException ex) {
             System.out.println(ex.getMessage());
-            return;
         }
     }
 
@@ -124,8 +119,10 @@ public class GameManager {
 
         System.out.print("Please enter player name");
         playerName = InputScanner.scanner.nextLine();
-        System.out.print("Please enter player ID");
-        playerId = InputScanner.scanner.nextLine();
+        do {
+            System.out.print("Please enter player ID");
+            playerId = InputScanner.scanner.nextLine();
+        }while (Tools.tryParseInt(playerId));
 
         do {
             System.out.print("Human player? y/n");
@@ -133,10 +130,15 @@ public class GameManager {
             validInput = userChoice.equalsIgnoreCase("y") || userChoice.equalsIgnoreCase("n");
         }while (validInput);
 
+        humanPLayer = userChoice;
         m_Player = new GamePlayer(humanPLayer.equalsIgnoreCase("y"), playerName, playerId);
         if(humanPLayer.equalsIgnoreCase("y")){
-            System.out.print("Please Enter Pc Move Limit");
-            
+            do {
+                System.out.print("Please Enter Pc Move Limit");
+                userChoice = InputScanner.scanner.nextLine();
+            }while (Tools.tryParseInt(userChoice));
+
+            m_Player.setMoveLimit(Integer.parseInt(userChoice));
         }
     }
 
@@ -155,9 +157,9 @@ public class GameManager {
         return requestedPath;
     }
 
-    private void initializeGame() {
+   /* private void initializeGame() {
 
-    }
+    }*/
 
     private void startNewGame() {
         m_InGame = true;
@@ -273,7 +275,7 @@ public class GameManager {
 
         if (InputScanner.scanner.hasNext()) {
             inputChar = InputScanner.scanner.next();
-            if (inputChar == "b" || inputChar == "c" || inputChar == "u") {
+            if (inputChar.equalsIgnoreCase("b") || inputChar.equalsIgnoreCase("c") || inputChar.equalsIgnoreCase("u")) {
                 o_changeTo = inputChar;
             }
         }
@@ -366,7 +368,7 @@ public class GameManager {
 
         while (inputAsNum < minVal || inputAsNum > maxVal) {
             input = InputScanner.scanner.nextLine();
-            if (tryParseInt(input)) {
+            if (Tools.tryParseInt(input)) {
                 inputAsNum = Integer.parseInt(input);
             } else {
                 System.out.print("Please select once more.");
@@ -380,15 +382,6 @@ public class GameManager {
         return playersChoice;
     }
 
-    //A parsing utill. Doesn't fit the class.
-    Boolean tryParseInt(String i_Value) {
-        try {
-            Integer.parseInt(i_Value);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 
     private enum eGameOptions {
 
