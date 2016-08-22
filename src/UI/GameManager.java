@@ -119,6 +119,7 @@ public class GameManager {
 
     private void startNewGame() {
         m_InGame = true;
+        //start timer!
 
         printBoard();
     }
@@ -146,6 +147,8 @@ public class GameManager {
     }
 
     private void preformPlayerMove() {
+        printBoard();
+
         try {
             parseAndMakeAMove();
         } catch (IllegalArgumentException ex) {
@@ -260,6 +263,8 @@ public class GameManager {
         catch (Exception e){
             System.out.print(e.getMessage());
         }
+
+        printBoard();
     }
 
     private void preformRedo() {
@@ -274,6 +279,8 @@ public class GameManager {
         catch (Exception e){
             System.out.print(e.getMessage());
         }
+
+        printBoard();
     }
 
     private MoveSet undoRedoHandler(LinkedList<MoveSet> i_MoveSetList) throws Exception{
@@ -290,7 +297,11 @@ public class GameManager {
     }
 
     private void printStatistics() {
-
+        System.out.print("Number of Moves played: " + m_Player.getNumOfMovesMade());
+        System.out.print("Number of Undo's made: " + m_Player.getNumOfUndoMade());
+        System.out.print("Number of Redo's made: " + m_Player.getNumOfRedoMade());
+        System.out.print("Play time: " +  + "seconds"); //add time
+        System.out.print("Score: " + m_Player.getBoardFillPracentage());
     }
 
     private eGameOptions getPlayersChoiceForMenu() {

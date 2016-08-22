@@ -69,6 +69,16 @@ public class GamePlayer {
         return m_NumOfRedoMade;
     }
 
+    public void incrementNumOfUndos(){
+        m_NumOfMovesMade--;
+        m_NumOfUndoMade++;
+    }
+
+    public void incrementNumOfRedos(){
+        m_NumOfMovesMade++;
+        m_NumOfRedoMade++;
+    }
+
     public Boolean checkIfPlayerHasMovesLeft(){
         Boolean playerHasMoveLeft = true;
 
