@@ -181,7 +181,7 @@ public class GameManager {
             }
 
             System.out.print("|");
-            for(Integer j:m_GameBoard.getVerticalSlice(i)){
+            for(Integer j:m_GameBoard.getHorizontalSlice(i)){
                 System.out.print(j.toString() + " ");//todo new cast insted of Integer that will tell us if the block might be on the board and make it print in bold
             }
 
@@ -189,7 +189,18 @@ public class GameManager {
             PrintSeparator();
         }
 
-        
+        for (int i = 0; i < m_GameBoard.getMaxHorizontalSlicesLength(); i++) {
+            for (int j = 0; j < m_GameBoard.getBoardWidth(); j++) {
+                if(i < m_GameBoard.getVerticalSlice(j).size()){
+                    System.out.print("|" + m_GameBoard.getVerticalSlice(j).get(i).toString());
+                }
+            }
+
+            System.out.println();
+            PrintSeparator();
+        }
+
+        System.out.println();
     }
 
     private void PrintSeparator() {
