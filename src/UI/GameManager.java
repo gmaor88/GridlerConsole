@@ -85,10 +85,12 @@ public class GameManager {
 
     private void loadNewGame() {
         String path = getFilePathFromUser();
+
         try {
             GameDescriptor gameDescriptor = JaxBGridlerClassGenerator.FromXmlFileToObject(path);
             validateGameDescriptorInfo(gameDescriptor);
             loadPlayerData(gameDescriptor);
+            m_GameReady = true;
         } catch (JAXBException e) {
             System.out.println("Illegal file.");
         } catch (GameLoadException ex) {
@@ -159,10 +161,6 @@ public class GameManager {
         return requestedPath;
     }
 
-   /* private void initializeGame() {
-
-    }*/
-
     private void startNewGame(){
         if(!m_GameReady){
             System.out.println("Please load game first.");
@@ -191,8 +189,8 @@ public class GameManager {
     }
 
     private void printBoardAndHorizontalSlice(){
-        for (int i = 0; i < m_GameBoard.getBoardHeight(); i++) {
-            for (int j = 0; j < m_GameBoard.getBoardWidth(); j++) {
+        for (int i = 1; i <= m_GameBoard.getBoardHeight(); i++) {
+            for (int j = 1; j <= m_GameBoard.getBoardWidth(); j++) {
                 try {
                     printSign(m_GameBoard.getSquare(i, j).getCurrentSquareSign());
                 } catch (ArrayIndexOutOfBoundsException e) {
@@ -202,11 +200,11 @@ public class GameManager {
             }
 
             System.out.print("|");
-            for(Block j:m_GameBoard.getHorizontalSlice(i)){
+            for(Block j:m_GameBoard.getHorizontalSlice(i - 1)){
                 System.out.print(j.toString() + " ");
             }
 
-            System.lineSeparator();
+            System.out.print(System.getProperty("line.separator"));
             PrintSeparator();
         }
     }
@@ -226,10 +224,10 @@ public class GameManager {
 
     private void PrintSeparator() {
         for (int i = 0; i < m_GameBoard.getBoardWidth() + m_GameBoard.getMaxHorizontalSlicesLength(); i++){
-            System.out.print("-");
+            System.out.print("--");
         }
 
-        System.lineSeparator();
+        System.out.print(System.getProperty("line.separator"));
     }
 
     private void printSign(Square.eSquareSign i_Sign) {
