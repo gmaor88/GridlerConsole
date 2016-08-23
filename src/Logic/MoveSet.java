@@ -6,8 +6,8 @@ import java.util.LinkedList;
  * Created by Maor Gershkovitch on 8/19/2016.
  */
 public class MoveSet {
-    LinkedList<Point> m_PointsList = new LinkedList<>();
-    String m_Comment = null;
+    private LinkedList<Point> m_PointsList = new LinkedList<>();
+    private String m_Comment = null;
 
     public MoveSet(String i_Comment){
         m_Comment = i_Comment;
