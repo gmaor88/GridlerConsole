@@ -2,6 +2,7 @@ package Logic;
 
 import java.util.ArrayList;
 import Logic.Square;
+import Utils.GameLoadException;
 
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
@@ -16,7 +17,11 @@ public class GameBoard {
     private int m_MaxHorizontalSlicesLength = 0;
     private int m_MaxVerticalSlicesLength = 0;
 
-    public GameBoard(int i_BoardHeight, int i_BoardWidth){
+    public GameBoard(int i_BoardHeight, int i_BoardWidth) throws GameLoadException{
+        if(100 < i_BoardHeight || i_BoardHeight < 10 || 100 < i_BoardWidth || i_BoardWidth < 10){
+            throw new GameLoadException("Invalid boar size");
+        }
+
         f_BoardHeight = i_BoardHeight;
         f_BoardWidth = i_BoardWidth;
         m_VerticalSlices = new ArrayList[i_BoardWidth];

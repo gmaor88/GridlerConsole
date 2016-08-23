@@ -18,6 +18,10 @@ public class GameLoader {
         int columnIndex, rowIndex;
         GameBoard board;
 
+        if(!i_GameDescriptor.getGameType().equalsIgnoreCase("singleplayer")){
+            throw new GameLoadException("Invalid Format");
+        }
+
         columns = i_GameDescriptor.getBoard().getDefinition().getColumns().intValue();
         rows = i_GameDescriptor.getBoard().getDefinition().getRows().intValue();
         numberOfSlices = i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().size();
