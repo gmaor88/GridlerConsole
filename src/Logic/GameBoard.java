@@ -100,6 +100,96 @@ public class GameBoard {
 
         return moveset;
     }
+    
+    public void updateBlocks(){
+        clearMarking();
+        updateHorizontalBlocks();
+        updateVerticalBlocks();
+    }
+
+    private void clearMarking() {
+        boolean mark = true;
+
+        for(ArrayList<Block> arr: m_HorizontalSlices){
+            for (Block block: arr){
+                block.setMarked(!mark);
+            }
+        }
+
+        for(ArrayList<Block> arr: m_VerticalSlices){
+            for (Block block: arr){
+                block.setMarked(!mark);
+            }
+        }
+    }
+
+    private void blocksScanner(int i_AmountToScan, int i_LengthOfScan){
+        int blockSizeCounter = 0;
+
+        for(int i = 0; i < i_AmountToScan; i++){
+            for(int j = 0; j < i_LengthOfScan; j++){
+                if(f_BoardHeight == i_AmountToScan) {
+                    if (m_board[i][j].getCurrentSquareSign() == Square.eSquareSign.BLACKED) {
+                        blockSizeCounter++;
+                    } else if (blockSizeCounter != 0) {
+                        flagHorizontalBlock(i, blockSizeCounter);
+                        blockSizeCounter = 0;
+                    }
+                }
+                else{
+                    if (m_board[j][i].getCurrentSquareSign() == Square.eSquareSign.BLACKED) {
+                        blockSizeCounter++;
+                    } else if (blockSizeCounter != 0) {
+                        flagVerticalBlock(i, blockSizeCounter);
+                        blockSizeCounter = 0;
+                    }
+                }
+            }
+
+            if(f_BoardHeight == i_AmountToScan){
+                if (blockSizeCounter != 0) {
+                    flagHorizontalBlock(i, blockSizeCounter);
+                    blockSizeCounter = 0;
+                }
+            }
+            else{
+                if (blockSizeCounter != 0) {
+                    flagVerticalBlock(i, blockSizeCounter);
+                    blockSizeCounter = 0;
+                }
+            }
+        }
+    }
+
+    private void flagVerticalBlock(int i_Index, int i_BlockSize) {
+        boolean mark = true;
+
+        for(Block block: m_VerticalSlices[i_Index]){
+            if(!block.isMarked() && block.getSize() == i_BlockSize){
+                block.setMarked(mark);
+                return;
+            }
+        }
+    }
+
+    private void flagHorizontalBlock(int i_Index, int i_BlockSize) {
+        boolean mark = true;
+
+        for(Block block: m_HorizontalSlices[i_Index]){
+            if(!block.isMarked() && block.getSize() == i_BlockSize){
+                block.setMarked(mark);
+                return;
+            }
+        }
+    }
+
+    private void updateVerticalBlocks() {
+        blocksScanner(f_BoardWidth, f_BoardHeight);
+    }
+
+    private void updateHorizontalBlocks(){
+        blocksScanner(f_BoardHeight, f_BoardWidth);
+    }
 
     public double getBoardCompletionPercentage() {
         double completionPercentage = 0;
