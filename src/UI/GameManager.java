@@ -85,7 +85,6 @@ public class GameManager {
 
     private void loadNewGame() {
         String path = getFilePathFromUser();
-
         try {
             GameDescriptor gameDescriptor = JaxBGridlerClassGenerator.FromXmlFileToObject(path);
             validateGameDescriptorInfo(gameDescriptor);
@@ -165,7 +164,12 @@ public class GameManager {
 
     }*/
 
-    private void startNewGame() {
+    private void startNewGame(){
+        if(!m_GameReady){
+            System.out.println("Please load game first.");
+            return;
+        }
+
         m_InGame = true;
         m_GameDurationTimer = System.currentTimeMillis();
 
