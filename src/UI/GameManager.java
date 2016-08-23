@@ -172,12 +172,27 @@ public class GameManager {
         printBoard();
     }
 
-    private void printBoard() {
+    private Boolean printBoard() {
+        Boolean printed = true;
+
+        if (!m_InGame){
+            System.out.println("Board unavailable, Load Game first.");
+            return !printed;
+        }
+
+        printBoardAndHorizontalSlice();
+        printVerticalSlices();
+        System.out.println();
+
+        return printed;
+    }
+
+    private void printBoardAndHorizontalSlice(){
         for (int i = 0; i < m_GameBoard.getBoardHeight(); i++) {
             for (int j = 0; j < m_GameBoard.getBoardWidth(); j++) {
                 try {
                     printSign(m_GameBoard.getSquare(i, j).getCurrentSquareSign());
-                } catch (Exception e) {
+                } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.print(e.getMessage());
                     return;
                 }
@@ -191,7 +206,9 @@ public class GameManager {
             System.lineSeparator();
             PrintSeparator();
         }
+    }
 
+    private void printVerticalSlices(){
         for (int i = 0; i < m_GameBoard.getMaxVerticalSlicesLength(); i++) {
             for (int j = 0; j < m_GameBoard.getBoardWidth(); j++) {
                 if(i < m_GameBoard.getVerticalSlice(j).size()){
@@ -202,8 +219,6 @@ public class GameManager {
             System.lineSeparator();
             PrintSeparator();
         }
-
-        System.out.println();
     }
 
     private void PrintSeparator() {
@@ -225,7 +240,9 @@ public class GameManager {
     }
 
     private void preformPlayerMove() {
-        printBoard();
+        if(!printBoard()){
+            return;
+        }
 
         try {
             parseAndMakeAMove();
@@ -386,6 +403,11 @@ public class GameManager {
     }
 
     private void printPlayersMovesList() {
+        if(m_InGame == false || m_Player.getMoveList().size() == 0) {
+            System.out.println("Move list is unavailable");
+            return;
+        }
+
         for(String move : m_Player.getMoveList()){
             System.out.println(move);
         }
@@ -441,6 +463,7 @@ public class GameManager {
     private void printStatistics() {
         if (!m_InGame){
             System.out.println("Statistics unavailable");
+            return;
         }
         Long currentTime = System.currentTimeMillis();
 
