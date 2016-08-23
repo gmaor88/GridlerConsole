@@ -12,8 +12,8 @@ public class GameBoard {
     private Square m_board[][];
     private final int f_BoardHeight;
     private final int f_BoardWidth;
-    private ArrayList<Block> m_VerticalSlices[];
-    private ArrayList<Block> m_HorizontalSlices[];
+    private ArrayList<Block>[] m_VerticalSlices;
+    private ArrayList<Block>[] m_HorizontalSlices;
     private int m_MaxHorizontalSlicesLength = 0;
     private int m_MaxVerticalSlicesLength = 0;
 
