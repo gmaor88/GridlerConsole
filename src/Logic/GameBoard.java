@@ -9,7 +9,7 @@ import Utils.GameLoadException;
  */
 public class GameBoard {
 
-    private Square m_board[][];
+    private Square[][] m_board;
     private final int f_BoardHeight;
     private final int f_BoardWidth;
     private ArrayList<ArrayList<Block>> m_VerticalSlices;
@@ -27,13 +27,15 @@ public class GameBoard {
         initializeSlicesArray(m_VerticalSlices, i_BoardWidth);
         m_HorizontalSlices = new ArrayList<>();
         initializeSlicesArray(m_HorizontalSlices, i_BoardHeight);
-        m_board = new Square[f_BoardHeight][f_BoardWidth];
+        m_board = new Square[f_BoardHeight][];
         initializeBoard();
     }
 
     private void initializeBoard() {
-        for(int i = 0; i < f_BoardHeight; i++){
-            m_board[i] = new Square[f_BoardWidth];
+        for (int j = 0; j < f_BoardHeight; j++) {
+            for (int i = 0; i < f_BoardWidth; i++) {
+                m_board[j][i] = new Square();
+            }
         }
     }
 
