@@ -37,15 +37,15 @@ public class GameLoader {
 
         for(int i = 0; i < numberOfSlices ; i++){
             blocks = getBlocks(i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getBlocks());
-            slicesId = i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getId().intValue();
-            if(i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getOrientation().equalsIgnoreCase("rows")){
+            slicesId = i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getId().intValue() - 1;
+            if(i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getOrientation().equalsIgnoreCase("row")){
                 if(getNumberOfBlackSquare(blocks) > columns){
                     throw new GameLoadException("Invalid number of blocks in column "+ slicesId);
                 }
 
                 board.setHorizontalSlice(slicesId,blocks);
             }
-            else if(i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getOrientation().equalsIgnoreCase("columns")){
+            else if(i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getOrientation().equalsIgnoreCase("column")){
                 if(getNumberOfBlackSquare(blocks) > rows){
                     throw new GameLoadException("Invalid number of blocks in row "+ slicesId);
                 }

@@ -118,7 +118,6 @@ public class GameManager {
     private void getPlayerDataFromUser() {
        String playerName, playerId, humanPLayer, userChoice;
         Boolean validInput;
-        int movesLimit;
 
         System.out.println("Please enter player name: ");
         playerName = InputScanner.scanner.nextLine();
