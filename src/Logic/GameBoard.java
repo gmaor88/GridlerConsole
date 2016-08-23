@@ -19,9 +19,8 @@ public class GameBoard {
 
     public GameBoard(int i_BoardHeight, int i_BoardWidth) throws GameLoadException{
         if(100 < i_BoardHeight || i_BoardHeight < 10 || 100 < i_BoardWidth || i_BoardWidth < 10){
-            throw new GameLoadException("Invalid boar size");
+            throw new GameLoadException("Invalid board size");
         }
-
         f_BoardHeight = i_BoardHeight;
         f_BoardWidth = i_BoardWidth;
         m_VerticalSlices = new ArrayList[i_BoardWidth];
