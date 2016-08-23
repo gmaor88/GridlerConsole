@@ -12,8 +12,8 @@ public class GameBoard {
     private Square m_board[][];
     private final int f_BoardHeight;
     private final int f_BoardWidth;
-    private ArrayList<Block>[] m_VerticalSlices;
-    private ArrayList<Block>[] m_HorizontalSlices;
+    private ArrayList<ArrayList<Block>> m_VerticalSlices;
+    private ArrayList<ArrayList<Block>> m_HorizontalSlices;
     private int m_MaxHorizontalSlicesLength = 0;
     private int m_MaxVerticalSlicesLength = 0;
 
@@ -24,9 +24,17 @@ public class GameBoard {
 
         f_BoardHeight = i_BoardHeight;
         f_BoardWidth = i_BoardWidth;
-        m_VerticalSlices = new ArrayList[i_BoardWidth];
-        m_HorizontalSlices = new ArrayList[i_BoardHeight];
+        m_VerticalSlices = new ArrayList<>(i_BoardWidth);
+        initializeSlicesArray(m_VerticalSlices);
+        m_HorizontalSlices = new ArrayList<>(i_BoardHeight);
+        initializeSlicesArray(m_HorizontalSlices);
         m_board = new Square[f_BoardHeight][f_BoardWidth];
+    }
+
+    private void initializeSlicesArray(ArrayList<ArrayList<Block>> i_Slices) {
+        for(ArrayList<Block> arr: i_Slices){
+            arr = new ArrayList<>();
+        }
     }
 
     public int getBoardHeight() {
@@ -43,7 +51,7 @@ public class GameBoard {
 
     public void setVerticalSlice(int i_Width, int [] i_Blocks){
         for(int num: i_Blocks){
-            m_VerticalSlices[i_Width].add(new Block(num));
+            m_VerticalSlices.get(i_Width).add(new Block(num));
         }
 
         if(m_MaxVerticalSlicesLength < i_Blocks.length){
@@ -52,12 +60,12 @@ public class GameBoard {
     }
 
     public  ArrayList<Block> getVerticalSlice(int i_Width){
-        return  m_VerticalSlices[i_Width];
+        return  m_VerticalSlices.get(i_Width);
     }
 
     public void setHorizontalSlice(int i_Height, int [] i_Blocks){
         for (int num: i_Blocks){
-            m_HorizontalSlices[i_Height].add(new Block(num));
+            m_HorizontalSlices.get(i_Height).add(new Block(num));
         }
 
         if(m_MaxHorizontalSlicesLength < i_Blocks.length){
@@ -66,7 +74,7 @@ public class GameBoard {
     }
 
     public  ArrayList<Block> getHorizontalSlice(int i_Height){
-        return  m_VerticalSlices[i_Height];
+        return  m_VerticalSlices.get(i_Height);
     }
 
     public Square getSquare(int i_Height, int i_Width) throws ArrayIndexOutOfBoundsException{
@@ -164,7 +172,7 @@ public class GameBoard {
     private void flagVerticalBlock(int i_Index, int i_BlockSize) {
         boolean mark = true;
 
-        for(Block block: m_VerticalSlices[i_Index]){
+        for(Block block: m_VerticalSlices.get(i_Index)){
             if(!block.isMarked() && block.getSize() == i_BlockSize){
                 block.setMarked(mark);
                 return;
@@ -175,7 +183,7 @@ public class GameBoard {
     private void flagHorizontalBlock(int i_Index, int i_BlockSize) {
         boolean mark = true;
 
-        for(Block block: m_HorizontalSlices[i_Index]){
+        for(Block block: m_HorizontalSlices.get(i_Index)){
             if(!block.isMarked() && block.getSize() == i_BlockSize){
                 block.setMarked(mark);
                 return;
