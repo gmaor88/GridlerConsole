@@ -23,7 +23,7 @@ public class Square {
         m_TrueSquareSignValue = i_GivenSign;
     }
 
-    public Boolean CheckIfCellMarkedCorrectly(){
+    Boolean CheckIfCellMarkedCorrectly(){
         return m_CurrentSquareSign == m_TrueSquareSignValue;
     }
 
