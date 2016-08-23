@@ -14,6 +14,7 @@ public class GameBoard {
     private ArrayList<Integer> m_VerticalSlices[];
     private ArrayList<Integer> m_HorizontalSlices[];
     private int m_MaxHorizontalSlicesLength = 0;
+    private int m_MaxVerticalSlicesLength = 0;
 
     public GameBoard(int i_BoardHeight, int i_BoardWidth){
         f_BoardHeight = i_BoardHeight;
@@ -33,9 +34,15 @@ public class GameBoard {
 
     public  int getMaxHorizontalSlicesLength(){return m_MaxHorizontalSlicesLength;}
 
+    public int getMaxVerticalSlicesLength(){return  m_MaxVerticalSlicesLength;}
+
     public void setVerticalSlice(int i_Width, int [] i_Blocks){
         for(int num: i_Blocks){
             m_VerticalSlices[i_Width].add(num);
+        }
+
+        if(m_MaxVerticalSlicesLength < i_Blocks.length){
+            m_MaxVerticalSlicesLength = i_Blocks.length;
         }
     }
 

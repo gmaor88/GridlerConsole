@@ -192,7 +192,7 @@ public class GameManager {
             PrintSeparator();
         }
 
-        for (int i = 0; i < m_GameBoard.getMaxHorizontalSlicesLength(); i++) {
+        for (int i = 0; i < m_GameBoard.getMaxVerticalSlicesLength(); i++) {
             for (int j = 0; j < m_GameBoard.getBoardWidth(); j++) {
                 if(i < m_GameBoard.getVerticalSlice(j).size()){
                     System.out.print("|" + m_GameBoard.getVerticalSlice(j).get(i).toString());
@@ -207,6 +207,11 @@ public class GameManager {
     }
 
     private void PrintSeparator() {
+        for (int i = 0; i < m_GameBoard.getBoardWidth() + m_GameBoard.getMaxHorizontalSlicesLength(); i++){
+            System.out.print("-");
+        }
+
+        System.lineSeparator();
     }
 
     private void printSign(Square.eSquareSign i_Sign) {
@@ -441,7 +446,7 @@ public class GameManager {
 
         System.out.print(String.format("Number of Moves played: %d", m_Player.getNumOfMovesMade()));
         System.out.print(String.format("Number of Undo's made: %d", m_Player.getNumOfUndoMade()));
-        System.out.print(String.format("Number of Redo's made: %d", m_Player.getNumOfRedoMade());
+        System.out.print(String.format("Number of Redo's made: %d", m_Player.getNumOfRedoMade()));
         System.out.print(String.format("Play time: %d seconds", ((currentTime - m_GameDurationTimer) * 1000)));
         System.out.print(String.format("Score: %f", m_GameBoard.getBoardCompletionPercentage()));
     }
