@@ -85,7 +85,7 @@ public class GameBoard {
             throw new ArrayIndexOutOfBoundsException ("Width Out of Bounds");
         }
 
-        return  m_board[i_Height][i_Width];
+        return  m_board[i_Height - 1][i_Width - 1];
     }
 
     public MoveSet insert(int i_StartRow, int i_StartColumn, int i_EndRow, int i_EndColumn, Square.eSquareSign i_Sign, String i_Comment) throws  ArrayIndexOutOfBoundsException{
