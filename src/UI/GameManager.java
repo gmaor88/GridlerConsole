@@ -70,14 +70,17 @@ public class GameManager {
         for (eGameOptions option : eGameOptions.values()) {
             if (m_InGame) {
                 if (option != eGameOptions.LOAD_GAME && option != eGameOptions.START_GAME) {
-                    System.out.print(i + "." + option.toString());
-                    i++;
-                } else {
-                    System.out.print(i + "." + option.toString());
+                    System.out.print(i + "." + option.toString() + System.lineSeparator());
                     i++;
                 }
             }
+            else {
+                    System.out.print(i + "." + option.toString() + System.lineSeparator());
+                    i++;
+            }
         }
+
+        System.out.print("Select one of the above: ");
     }
 
     private void loadNewGame() {
@@ -185,7 +188,7 @@ public class GameManager {
                 System.out.print(j.toString() + " ");//todo new cast insted of Integer that will tell us if the block might be on the board and make it print in bold
             }
 
-            System.out.println();
+            System.lineSeparator();
             PrintSeparator();
         }
 
@@ -196,7 +199,7 @@ public class GameManager {
                 }
             }
 
-            System.out.println();
+            System.lineSeparator();
             PrintSeparator();
         }
 
@@ -384,7 +387,7 @@ public class GameManager {
     }
 
     private void preformUndo() {
-        if(m_UndoList.isEmpty()){
+        if(m_UndoList.isEmpty() || m_InGame == false){
             System.out.print("Undo unavailable");
             return;
         }
@@ -401,7 +404,7 @@ public class GameManager {
     }
 
     private void preformRedo() {
-        if(m_RedoList.isEmpty()){
+        if(m_RedoList.isEmpty() || m_InGame == false){
             System.out.print("Redo unavailable");
             return;
         }
@@ -431,13 +434,16 @@ public class GameManager {
     }
 
     private void printStatistics() {
+        if (!m_InGame){
+            System.out.print("Statistics unavailable");
+        }
         Long currentTime = System.currentTimeMillis();
 
-        System.out.print("Number of Moves played: " + m_Player.getNumOfMovesMade());
-        System.out.print("Number of Undo's made: " + m_Player.getNumOfUndoMade());
-        System.out.print("Number of Redo's made: " + m_Player.getNumOfRedoMade());
-        System.out.print("Play time: " + ((currentTime - m_GameDurationTimer) * 1000) + "seconds");
-        System.out.print("Score: " + m_GameBoard.getBoardCompletionPercentage());
+        System.out.print(String.format("Number of Moves played: %d", m_Player.getNumOfMovesMade()));
+        System.out.print(String.format("Number of Undo's made: %d", m_Player.getNumOfUndoMade()));
+        System.out.print(String.format("Number of Redo's made: %d", m_Player.getNumOfRedoMade());
+        System.out.print(String.format("Play time: %d seconds", ((currentTime - m_GameDurationTimer) * 1000)));
+        System.out.print(String.format("Score: %f", m_GameBoard.getBoardCompletionPercentage()));
     }
 
     private eGameOptions getPlayersChoiceForMenu() {
