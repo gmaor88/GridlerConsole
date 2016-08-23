@@ -80,7 +80,7 @@ public class GameManager {
             }
         }
 
-        System.out.print("Select one of the above: ");
+        System.out.println("Select one of the above: ");
     }
 
     private void loadNewGame() {
@@ -102,7 +102,7 @@ public class GameManager {
         boolean validInput;
 
         do {
-            System.out.print("Would you like to load player data from file? y/n");
+            System.out.println("Would you like to load player data from file? y/n");
             userChoice = InputScanner.scanner.nextLine();
             validInput = userChoice.equalsIgnoreCase("y") || userChoice.equalsIgnoreCase("n");
         }while (validInput);
@@ -121,15 +121,15 @@ public class GameManager {
         Boolean validInput;
         int movesLimit;
 
-        System.out.print("Please enter player name");
+        System.out.println("Please enter player name: ");
         playerName = InputScanner.scanner.nextLine();
         do {
-            System.out.print("Please enter player ID");
+            System.out.println("Please enter player ID");
             playerId = InputScanner.scanner.nextLine();
         }while (Tools.tryParseInt(playerId));
 
         do {
-            System.out.print("Human player? y/n");
+            System.out.println("Human player? y/n");
             userChoice = InputScanner.scanner.nextLine();
             validInput = userChoice.equalsIgnoreCase("y") || userChoice.equalsIgnoreCase("n");
         }while (validInput);
@@ -138,7 +138,7 @@ public class GameManager {
         m_Player = new GamePlayer(humanPLayer.equalsIgnoreCase("y"), playerName, playerId);
         if(humanPLayer.equalsIgnoreCase("y")){
             do {
-                System.out.print("Please Enter Pc Move Limit");
+                System.out.println("Please Enter Pc Move Limit");
                 userChoice = InputScanner.scanner.nextLine();
             }while (Tools.tryParseInt(userChoice));
 
@@ -230,7 +230,7 @@ public class GameManager {
         try {
             parseAndMakeAMove();
         } catch (IllegalArgumentException ex) {
-            System.out.print(ex.getMessage());
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -252,7 +252,7 @@ public class GameManager {
                 m_Player.insertMoveToMoveList(startRow,startCol,endRow,endCol,sign,"Pc");
             }
             catch (Exception e){
-                System.out.print(e.getMessage());
+                System.out.println(e.getMessage());
                 return;
             }
 
@@ -387,13 +387,13 @@ public class GameManager {
 
     private void printPlayersMovesList() {
         for(String move : m_Player.getMoveList()){
-            System.out.print(move);
+            System.out.println(move);
         }
     }
 
     private void preformUndo() {
         if(m_UndoList.isEmpty() || m_InGame == false){
-            System.out.print("Undo unavailable");
+            System.out.println("Undo unavailable");
             return;
         }
 
@@ -402,7 +402,7 @@ public class GameManager {
             m_Player.incrementNumOfUndos();
         }
         catch (Exception e){
-            System.out.print(e.getMessage());
+            System.out.println(e.getMessage());
         }
 
         printBoard();
@@ -410,7 +410,7 @@ public class GameManager {
 
     private void preformRedo() {
         if(m_RedoList.isEmpty() || m_InGame == false){
-            System.out.print("Redo unavailable");
+            System.out.println("Redo unavailable");
             return;
         }
 
@@ -419,7 +419,7 @@ public class GameManager {
             m_Player.incrementNumOfRedos();
         }
         catch (Exception e){
-            System.out.print(e.getMessage());
+            System.out.println(e.getMessage());
         }
 
         printBoard();
@@ -440,15 +440,15 @@ public class GameManager {
 
     private void printStatistics() {
         if (!m_InGame){
-            System.out.print("Statistics unavailable");
+            System.out.println("Statistics unavailable");
         }
         Long currentTime = System.currentTimeMillis();
 
-        System.out.print(String.format("Number of Moves played: %d", m_Player.getNumOfMovesMade()));
-        System.out.print(String.format("Number of Undo's made: %d", m_Player.getNumOfUndoMade()));
-        System.out.print(String.format("Number of Redo's made: %d", m_Player.getNumOfRedoMade()));
-        System.out.print(String.format("Play time: %d seconds", ((currentTime - m_GameDurationTimer) * 1000)));
-        System.out.print(String.format("Score: %f", m_GameBoard.getBoardCompletionPercentage()));
+        System.out.println(String.format("Number of Moves played: %d", m_Player.getNumOfMovesMade()));
+        System.out.println(String.format("Number of Undo's made: %d", m_Player.getNumOfUndoMade()));
+        System.out.println(String.format("Number of Redo's made: %d", m_Player.getNumOfRedoMade()));
+        System.out.println(String.format("Play time: %d seconds", ((currentTime - m_GameDurationTimer) * 1000)));
+        System.out.println(String.format("Score: %f", m_GameBoard.getBoardCompletionPercentage()));
     }
 
     private eGameOptions getPlayersChoiceForMenu() {
@@ -468,7 +468,7 @@ public class GameManager {
             if (Tools.tryParseInt(input)) {
                 inputAsNum = Integer.parseInt(input);
             } else {
-                System.out.print("Please select once more.");
+                System.out.println("Please select once more.");
             }
         }
         for (eGameOptions options : eGameOptions.values()) {
