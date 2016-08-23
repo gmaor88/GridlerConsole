@@ -23,16 +23,16 @@ public class GameBoard {
         }
         f_BoardHeight = i_BoardHeight;
         f_BoardWidth = i_BoardWidth;
-        m_VerticalSlices = new ArrayList<>(i_BoardWidth);
-        initializeSlicesArray(m_VerticalSlices);
-        m_HorizontalSlices = new ArrayList<>(i_BoardHeight);
-        initializeSlicesArray(m_HorizontalSlices);
+        m_VerticalSlices = new ArrayList<>();
+        initializeSlicesArray(m_VerticalSlices, i_BoardWidth);
+        m_HorizontalSlices = new ArrayList<>();
+        initializeSlicesArray(m_HorizontalSlices, i_BoardHeight);
         m_board = new Square[f_BoardHeight][f_BoardWidth];
     }
 
-    private void initializeSlicesArray(ArrayList<ArrayList<Block>> i_Slices) {
-        for(ArrayList<Block> arr: i_Slices){
-            arr = new ArrayList<>();//might not be needed
+    private void initializeSlicesArray(ArrayList<ArrayList<Block>> i_Slices, int i_Size) {
+        for(int i = 0; i < i_Size; i++){
+            i_Slices.add(new ArrayList<Block>());
         }
     }
 
