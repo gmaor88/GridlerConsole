@@ -9,7 +9,7 @@ import Utils.GameLoadException;
  */
 public class GameBoard {
 
-    private Square m_board[][];
+    private Square[][] m_board;
     private final int f_BoardHeight;
     private final int f_BoardWidth;
     private ArrayList<ArrayList<Block>> m_VerticalSlices;
