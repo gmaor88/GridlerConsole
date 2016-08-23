@@ -32,7 +32,7 @@ public class GameBoard {
 
     private void initializeSlicesArray(ArrayList<ArrayList<Block>> i_Slices) {
         for(ArrayList<Block> arr: i_Slices){
-            arr = new ArrayList<>();
+            arr = new ArrayList<>();//might not be needed
         }
     }
 
