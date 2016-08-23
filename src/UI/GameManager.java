@@ -104,7 +104,7 @@ public class GameManager {
             System.out.println("Would you like to load player data from file? y/n");
             userChoice = InputScanner.scanner.nextLine();
             validInput = userChoice.equalsIgnoreCase("y") || userChoice.equalsIgnoreCase("n");
-        }while (validInput);
+        }while (!validInput);
 
         if(userChoice.equalsIgnoreCase("y")){
             GameLoader gameLoader = new GameLoader();
