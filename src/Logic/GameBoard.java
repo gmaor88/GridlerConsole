@@ -27,7 +27,7 @@ public class GameBoard {
         initializeSlicesArray(m_VerticalSlices, i_BoardWidth);
         m_HorizontalSlices = new ArrayList<>();
         initializeSlicesArray(m_HorizontalSlices, i_BoardHeight);
-        m_board = new Square[f_BoardHeight][];
+        m_board = new Square[f_BoardHeight][f_BoardWidth];
         initializeBoard();
     }
 
