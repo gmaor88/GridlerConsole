@@ -512,9 +512,6 @@ public class GameManager {
         if (m_InGame) {
             minVal = eGameOptions.DISPLAY_BORD.getOrdinalPosition();
         }
-        /*else if (m_GameReady) {
-            minVal = eGameOptions.START_GAME.getOrdinalPosition();
-        }*/
 
         while (inputAsNum < minVal || inputAsNum > maxVal) {
             input = InputScanner.scanner.nextLine();
