@@ -34,8 +34,15 @@ public class GamePlayer {
     public  void insertMoveToMoveList(int i_StartRow, int i_StartColumn, int i_EndRow, int i_EndColumn,
                                       Square.eSquareSign i_Sign, String i_Comment){
         m_MoveList.addFirst(i_StartRow + "," + i_StartColumn + " " + i_EndRow + "," +
-                i_EndColumn + " " + i_Sign + " " + i_Comment);
+                i_EndColumn + " " + i_Sign + " " + hasComment(i_Comment));
         m_NumOfMovesMade++;
+    }
+
+    private String hasComment(String i_Comment){
+        if(i_Comment != null){
+            return i_Comment;
+        }
+        return "";
     }
 
     public Boolean getIsHuman() {

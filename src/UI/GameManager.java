@@ -325,10 +325,7 @@ public class GameManager {
     }
 
     private void parseAndMakeAMove() throws IllegalArgumentException {
-        Integer rowNumS = 0, colNumS = 0, rowNumE = 0, colNumE = 0;
-        String userComment = null, changeTo = null;
-        Square.eSquareSign requestedSign = Square.eSquareSign.UNDEFINED;
-
+        UserMoveData userData = new UserMoveData();
         /*ToReadMe:
         * enter move in the following format:rowNumS colNumS rowNumE colNumE b/c/u comment
         * rowNumS,colNumS rowNumE,colNumE - enter the square number you want to start filling from
@@ -337,85 +334,89 @@ public class GameManager {
         * b/c/u - Turn Squares to black, cleared or undefined.
         */
 
-        if (!parseToSquares(rowNumS, colNumS, rowNumE, colNumE)) {
+        if (!parseToSquares(userData)) {
             throw new IllegalArgumentException();
         }
 
-        if (!validateChangeTo(changeTo)) {
+        if (!validateChangeTo(userData)) {
             throw new IllegalArgumentException();
         }
 
-        if (changeTo.equalsIgnoreCase("b")) {
-            requestedSign = Square.eSquareSign.BLACKED;
-        }
-        else if (changeTo.equalsIgnoreCase("c")) {
-            requestedSign = Square.eSquareSign.CLEARED;
-        }
+        getComment(userData);
 
-        getComment(userComment);
-
-        m_UndoList.add(m_GameBoard.insert(rowNumS, colNumS, rowNumE, colNumE, requestedSign, userComment));
-        m_Player.insertMoveToMoveList(rowNumS, colNumS, rowNumE, colNumE, requestedSign, userComment);
+        m_UndoList.add(m_GameBoard.insert(userData.getStartSquareRowNum(),userData.getStartSquareColNum(),
+                userData.getEndSquareRowNum(),userData.getEndSquareColNum(),userData.getSign(),
+                userData.getComment()));
+        m_Player.insertMoveToMoveList(userData.getStartSquareRowNum(),userData.getStartSquareColNum(),
+                userData.getEndSquareRowNum(),userData.getEndSquareColNum(),userData.getSign(),
+                userData.getComment());
         m_RedoList.clear();
     }
 
-    private Boolean parseToSquares(Integer o_rowNumS, Integer o_colNumS,
-                                   Integer o_rowNumE, Integer o_colNumE) {
+    private Boolean parseToSquares(UserMoveData io_userData) {
         Boolean validInput = true;
 
-        if (InputScanner.scanner.hasNextInt()) {
-            o_rowNumS = InputScanner.scanner.nextInt();
-            if (InputScanner.scanner.hasNextInt())
-                o_colNumS = InputScanner.scanner.nextInt();
-            if (InputScanner.scanner.hasNextInt())
-                o_rowNumE = InputScanner.scanner.nextInt();
-            if (InputScanner.scanner.hasNextInt())
-                o_colNumE = InputScanner.scanner.nextInt();
-        } else {
+        try {
+            io_userData.setStartSquareRowNum(InputScanner.scanner.nextInt());
+            io_userData.setStartSquareColNum(InputScanner.scanner.nextInt());
+            io_userData.setEndSquareRowNum(InputScanner.scanner.nextInt());
+            io_userData.setEndSquareColNum(InputScanner.scanner.nextInt());
+        }
+        catch (NumberFormatException e) {
+            return !validInput;
+        }
+        if (!checkIfFirstSquareIsSmallerAndValid(io_userData)) {
             validInput = false;
         }
-        if (!checkIfFirstSquareIsSmaller(o_rowNumS, o_colNumS,
-                o_rowNumE, o_colNumE)) {
-            validInput = false;
-        }
-        if (o_rowNumS != o_rowNumE && o_colNumS != o_colNumE ){
+        if (io_userData.getStartSquareRowNum() != io_userData.getEndSquareRowNum() &&
+               io_userData.getStartSquareColNum() != io_userData.getEndSquareColNum() ){
             validInput = false;
         }
 
         return validInput;
     }
 
-    private boolean checkIfFirstSquareIsSmaller(Integer i_rowNumS, Integer i_colNumS,
-                                                Integer i_rowNumE, Integer i_colNumE) {
-        Boolean startSquareIsSmaller = true;
+    private boolean checkIfFirstSquareIsSmallerAndValid(UserMoveData io_userData) {
+        Boolean startSquareIsSmallerAndValid = true;
 
-        if ((i_rowNumS > i_rowNumE || i_colNumS > i_colNumE) &&
-                (i_rowNumS < 1)) {
-            startSquareIsSmaller = false;
+        if (io_userData.getStartSquareRowNum() > io_userData.getEndSquareRowNum() ||
+                io_userData.getEndSquareColNum() > io_userData.getEndSquareColNum() ||
+                (io_userData.getStartSquareRowNum() < 1) || io_userData.getEndSquareColNum() < 1) {
+            startSquareIsSmallerAndValid= false;
         }
 
-        return startSquareIsSmaller;
+        return startSquareIsSmallerAndValid;
     }
 
-    private Boolean validateChangeTo(String o_changeTo) {
+    private Boolean validateChangeTo(UserMoveData io_userData) {
         Boolean validInput = true;
         String inputChar;
 
         if (InputScanner.scanner.hasNext()) {
             inputChar = InputScanner.scanner.next();
-            if (inputChar.equalsIgnoreCase("b") || inputChar.equalsIgnoreCase("c") || inputChar.equalsIgnoreCase("u")) {
-                o_changeTo = inputChar;
+            if (inputChar.equalsIgnoreCase("b")){
+                io_userData.setSign(Square.eSquareSign.BLACKED);
+            }
+            else if(inputChar.equalsIgnoreCase("c")) {
+                io_userData.setSign(Square.eSquareSign.CLEARED);
+            }
+            else if(inputChar.equalsIgnoreCase("u")){
+                io_userData.setSign(Square.eSquareSign.UNDEFINED);
+            }
+            else{
+                validInput = false;
             }
         }
         else {
             validInput = false;
         }
+
         return validInput;
     }
 
-    private void getComment(String o_userComment) {
+    private void getComment(UserMoveData io_userData) {
         if (InputScanner.scanner.hasNext()) {
-            o_userComment = InputScanner.scanner.nextLine();
+            io_userData.setComment(InputScanner.scanner.nextLine());
         }
     }
 
