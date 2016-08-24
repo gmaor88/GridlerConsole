@@ -67,10 +67,11 @@ public class GameManager {
     private void presentMainMenu() {
         int i = 1;
 
+        System.out.print(System.getProperty("line.separator"));
         for (eGameOptions option : eGameOptions.values()) {
             if (m_InGame) {
                 if (option != eGameOptions.LOAD_GAME && option != eGameOptions.START_GAME) {
-                    System.out.print(i + "." + option.toString() + System.lineSeparator());
+                    System.out.print((i+2) + "." + option.toString() + System.lineSeparator());
                     i++;
                 }
             }
@@ -126,17 +127,17 @@ public class GameManager {
         do {
             System.out.println("Please enter player ID");
             playerId = InputScanner.scanner.nextLine();
-        }while (Tools.tryParseInt(playerId));
+        }while (!Tools.tryParseInt(playerId));
 
         do {
             System.out.println("Human player? y/n");
             userChoice = InputScanner.scanner.nextLine();
             validInput = userChoice.equalsIgnoreCase("y") || userChoice.equalsIgnoreCase("n");
-        }while (validInput);
+        }while (!validInput);
 
         humanPLayer = userChoice;
         m_Player = new GamePlayer(humanPLayer.equalsIgnoreCase("y"), playerName, playerId);
-        if(humanPLayer.equalsIgnoreCase("y")){
+        if(!humanPLayer.equalsIgnoreCase("y")){
             do {
                 System.out.println("Please Enter Pc Move Limit");
                 userChoice = InputScanner.scanner.nextLine();
@@ -183,7 +184,7 @@ public class GameManager {
 
         printBoardAndHorizontalSlice();
         printVerticalSlices();
-        System.out.println();
+        System.out.print(System.getProperty("line.separator"));
 
         return printed;
     }
@@ -486,9 +487,10 @@ public class GameManager {
 
         if (m_InGame) {
             minVal = eGameOptions.DISPLAY_BORD.getOrdinalPosition();
-        } else if (m_GameReady) {
-            minVal = eGameOptions.START_GAME.getOrdinalPosition();
         }
+        /*else if (m_GameReady) {
+            minVal = eGameOptions.START_GAME.getOrdinalPosition();
+        }*/
 
         while (inputAsNum < minVal || inputAsNum > maxVal) {
             input = InputScanner.scanner.nextLine();
@@ -505,7 +507,6 @@ public class GameManager {
 
         return playersChoice;
     }
-
 
     private enum eGameOptions {
 
