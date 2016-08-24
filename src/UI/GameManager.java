@@ -249,7 +249,7 @@ public class GameManager {
     }
 
     private void preformPlayerMove() {
-        if(m_Player.getIsHuman()){
+        if(!m_Player.getIsHuman()){
             System.out.print("Player not human");
             return;
         }
