@@ -139,12 +139,12 @@ public class GameBoard {
         }
     }
 
-    private void blocksScanner(int i_AmountToScan, int i_LengthOfScan){
+    private void blocksScanner(int i_AmountToScan, int i_LengthOfScan, boolean i_HorizontalScan){
         int blockSizeCounter = 0;
 
         for(int i = 0; i < i_AmountToScan; i++){
             for(int j = 0; j < i_LengthOfScan; j++){
-                if(f_BoardHeight == i_AmountToScan) {
+                if(i_HorizontalScan) {
                     if (m_board[i][j].getCurrentSquareSign() == Square.eSquareSign.BLACKED) {
                         blockSizeCounter++;
                     } else if (blockSizeCounter != 0) {
@@ -162,7 +162,7 @@ public class GameBoard {
                 }
             }
 
-            if(f_BoardHeight == i_AmountToScan){
+            if(i_HorizontalScan){
                 if (blockSizeCounter != 0) {
                     flagHorizontalBlock(i, blockSizeCounter);
                     blockSizeCounter = 0;
@@ -200,11 +200,15 @@ public class GameBoard {
     }
 
     private void updateVerticalBlocks() {
-        blocksScanner(f_BoardWidth, f_BoardHeight);
+        boolean horizontalScan = true;
+
+        blocksScanner(f_BoardWidth, f_BoardHeight, !horizontalScan);
     }
 
     private void updateHorizontalBlocks(){
-        blocksScanner(f_BoardHeight, f_BoardWidth);
+        boolean horizontalScan = true;
+
+        blocksScanner(f_BoardHeight, f_BoardWidth, horizontalScan);
     }
 
     public double getBoardCompletionPercentage() {

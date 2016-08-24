@@ -344,7 +344,7 @@ public class GameManager {
 
         getComment(userData);
 
-        m_UndoList.add(m_GameBoard.insert(userData.getStartSquareRowNum(),userData.getStartSquareColNum(),
+        m_UndoList.addFirst(m_GameBoard.insert(userData.getStartSquareRowNum(),userData.getStartSquareColNum(),
                 userData.getEndSquareRowNum(),userData.getEndSquareColNum(),userData.getSign(),
                 userData.getComment()));
         m_Player.insertMoveToMoveList(userData.getStartSquareRowNum(),userData.getStartSquareColNum(),
@@ -475,6 +475,8 @@ public class GameManager {
             m_GameBoard.getSquare(point.getRowCord(), point.getColCord()).setCurrentSquareSign(point.getSign());
         }
 
+        i_MoveSetList.removeFirst();
+
         return moveSet;
     }
 
@@ -488,7 +490,7 @@ public class GameManager {
         System.out.println(String.format("Number of Moves played: %d", m_Player.getNumOfMovesMade()));
         System.out.println(String.format("Number of Undo's made: %d", m_Player.getNumOfUndoMade()));
         System.out.println(String.format("Number of Redo's made: %d", m_Player.getNumOfRedoMade()));
-        System.out.println(String.format("Play time: %d seconds", ((currentTime - m_GameDurationTimer) * 1000)));
+        System.out.println(String.format("Play time: %d seconds", ((currentTime - m_GameDurationTimer) / 1000)));
         System.out.println(String.format("Score: %f", m_GameBoard.getBoardCompletionPercentage()));
     }
 

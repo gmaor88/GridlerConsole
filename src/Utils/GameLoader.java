@@ -59,7 +59,7 @@ public class GameLoader {
 
         for(int i = 0; i < numberOfBlackSquares; i++) {
             rowIndex = i_GameDescriptor.getBoard().getSolution().getSquare().get(i).getRow().intValue();
-            columnIndex = i_GameDescriptor.getBoard().getSolution().getSquare().get(i).getRow().intValue();
+            columnIndex = i_GameDescriptor.getBoard().getSolution().getSquare().get(i).getColumn().intValue();
             try {
                 board.getSquare(rowIndex, columnIndex).setTrueSquareSignValue(Square.eSquareSign.BLACKED);
             }
