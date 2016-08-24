@@ -4,10 +4,8 @@ import Logic.*;
 import Utils.*;
 import jaxb.GameDescriptor;
 import javax.xml.bind.JAXBException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
@@ -262,6 +260,7 @@ public class GameManager {
 
         try {
             parseAndMakeAMove();
+            printBoard();
         } catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
@@ -431,7 +430,7 @@ public class GameManager {
     }
 
     private void printPlayersMovesList() {
-        if(m_InGame == false || m_Player.getMoveList().size() == 0) {
+        if(!m_InGame || m_Player.getMoveList().size() == 0) {
             System.out.println("Move list is unavailable");
             return;
         }
