@@ -12,7 +12,7 @@ public class BadMoveInputException extends Throwable {
 
     public BadMoveInputException(){}
 
-    public String get_ErorMsg() {
+    public String getErorMsg() {
         return m_ErrorMsg;
     }
 

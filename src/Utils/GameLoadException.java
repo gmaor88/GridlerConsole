@@ -10,7 +10,7 @@ public class GameLoadException extends Exception {
         m_ErrorMsg = i_ErrorMsg;
     }
 
-    public String get_ErorMsg() {
+    public String getErorMsg() {
         return m_ErrorMsg;
     }
 
