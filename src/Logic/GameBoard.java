@@ -109,7 +109,7 @@ public class GameBoard {
 
         for(int i = i_StartRow - 1; i < i_EndRow; i++){
             for(int j = i_StartColumn - 1; j < i_EndColumn; j++){
-                moveset.AddNewPoint(i, j, m_board[i][j].getCurrentSquareSign());
+                moveset.AddNewPoint(i + 1, j + 1, m_board[i][j].getCurrentSquareSign());// was without +1
                 m_board[i][j].setCurrentSquareSign(i_Sign);
             }
         }

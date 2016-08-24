@@ -141,7 +141,7 @@ public class GameManager {
             do {
                 System.out.println("Please Enter Pc Move Limit");
                 userChoice = InputScanner.scanner.nextLine();
-            }while (Tools.tryParseInt(userChoice));
+            }while (!Tools.tryParseInt(userChoice));
 
             m_Player.setMoveLimit(Integer.parseInt(userChoice));
         }
@@ -170,6 +170,9 @@ public class GameManager {
 
         m_InGame = true;
         m_GameDurationTimer = System.currentTimeMillis();
+        if(!m_Player.getIsHuman()){
+            AiPlay();
+        }
 
         printBoard();
     }
@@ -182,6 +185,7 @@ public class GameManager {
             return !printed;
         }
 
+        m_GameBoard.updateBlocks();
         printBoardAndHorizontalSlice();
         printVerticalSlices();
         System.out.print(System.getProperty("line.separator"));
@@ -245,6 +249,11 @@ public class GameManager {
     }
 
     private void preformPlayerMove() {
+        if(m_Player.getIsHuman()){
+            System.out.print("Player not human");
+            return;
+        }
+
         if(!printBoard()){
             return;
         }
@@ -278,13 +287,12 @@ public class GameManager {
                 return;
             }
 
-            if(percentage <= m_GameBoard.getBoardCompletionPercentage()){
-                preformUndo();
-                m_Player.incrementNumOfUndos();
-            }
-            else{
+            if(percentage < m_GameBoard.getBoardCompletionPercentage()){
                 printBoard();
                 percentage = m_GameBoard.getBoardCompletionPercentage();
+            }
+            else{
+                preformUndo();
             }
         }
     }
