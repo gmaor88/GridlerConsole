@@ -215,10 +215,13 @@ public class GameManager {
                 if(i < m_GameBoard.getVerticalSlice(j).size()){
                     System.out.print("|" + m_GameBoard.getVerticalSlice(j).get(i).toString());
                 }
+                else {
+                    System.out.print("| ");
+                }
             }
 
-            System.lineSeparator();
-            PrintSeparator();
+            System.out.print("| ");
+            System.out.print(System.getProperty("line.separator"));
         }
     }
 

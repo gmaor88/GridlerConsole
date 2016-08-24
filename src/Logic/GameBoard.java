@@ -82,7 +82,7 @@ public class GameBoard {
     }
 
     public  ArrayList<Block> getHorizontalSlice(int i_Height){
-        return  m_VerticalSlices.get(i_Height);
+        return  m_HorizontalSlices.get(i_Height);
     }
 
     public Square getSquare(int i_Height, int i_Width) throws ArrayIndexOutOfBoundsException{
