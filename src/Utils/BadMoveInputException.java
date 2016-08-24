@@ -1,0 +1,19 @@
+package Utils;
+
+/**
+ * Created by Maor Gershkovitch on 8/24/2016.
+ */
+public class BadMoveInputException extends Throwable {
+    String m_ErrorMsg = "Wrong input form.";
+
+    public BadMoveInputException(String i_ErrorMsg){
+        m_ErrorMsg = i_ErrorMsg;
+    }
+
+    public BadMoveInputException(){}
+
+    public String get_ErorMsg() {
+        return m_ErrorMsg;
+    }
+
+}

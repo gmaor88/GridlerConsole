@@ -4,9 +4,11 @@ import Logic.*;
 import Utils.*;
 import jaxb.GameDescriptor;
 import javax.xml.bind.JAXBException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
@@ -263,6 +265,9 @@ public class GameManager {
         } catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
+        catch (BadMoveInputException ex){
+            System.out.println();
+        }
     }
 
     private void AiPlay(){
@@ -324,25 +329,30 @@ public class GameManager {
         return sign;
     }
 
-    private void parseAndMakeAMove() throws IllegalArgumentException {
+    private void parseAndMakeAMove() throws BadMoveInputException {
         UserMoveData userData = new UserMoveData();
-        /*ToReadMe:
-        * enter move in the following format:rowNumS colNumS rowNumE colNumE b/c/u comment
-        * rowNumS,colNumS rowNumE,colNumE - enter the square number you want to start filling from
-         *use "," between row and col. then enter the square number you want to finish in.
-         * The start square must be smaller or equal to the ending square.
-        * b/c/u - Turn Squares to black, cleared or undefined.
-        */
+        String requestedMove = InputScanner.scanner.nextLine();
 
-        if (!parseToSquares(userData)) {
-            throw new IllegalArgumentException();
+        if(!requestedMove.contains(",") || !requestedMove.contains(".") ){
+            throw new BadMoveInputException();
         }
 
-        if (!validateChangeTo(userData)) {
-            throw new IllegalArgumentException();
+        String userDataString[] = requestedMove.split(Pattern.quote("."));
+
+        if(userDataString.length > 3){
+            throw new BadMoveInputException();
         }
 
-        getComment(userData);
+        if (!parseToSquares(userData, userDataString[0])) {
+            throw new BadMoveInputException();
+        }
+
+        if (!validateChangeTo(userData, userDataString[1])) {
+            throw new BadMoveInputException();
+        }
+
+        if(userDataString.length == 3) //user entered a comment
+        getComment(userData, userDataString[2]);
 
         m_UndoList.addFirst(m_GameBoard.insert(userData.getStartSquareRowNum(),userData.getStartSquareColNum(),
                 userData.getEndSquareRowNum(),userData.getEndSquareColNum(),userData.getSign(),
@@ -353,21 +363,28 @@ public class GameManager {
         m_RedoList.clear();
     }
 
-    private Boolean parseToSquares(UserMoveData io_userData) {
+    private Boolean parseToSquares(UserMoveData io_userData, String i_requestedMove)
+            throws BadMoveInputException{
+        Integer intermediate[] = new Integer[4];
         Boolean validInput = true;
+        int i = 0;
 
-        try {
-            io_userData.setStartSquareRowNum(InputScanner.scanner.nextInt());
-            io_userData.setStartSquareColNum(InputScanner.scanner.nextInt());
-            io_userData.setEndSquareRowNum(InputScanner.scanner.nextInt());
-            io_userData.setEndSquareColNum(InputScanner.scanner.nextInt());
+        for(String str : i_requestedMove.split(",")){
+            if(!Tools.tryParseInt(str) || i > 3) {
+                throw new IllegalArgumentException();
+            }
+            intermediate[i] = Integer.parseInt(str);
+            i++;
         }
-        catch (NumberFormatException e) {
-            return !validInput;
-        }
+
+        io_userData.setStartSquareRowNum(intermediate[0]);
+        io_userData.setStartSquareColNum(intermediate[1]);
+        io_userData.setEndSquareRowNum(intermediate[2]);
+        io_userData.setEndSquareColNum(intermediate[3]);
         if (!checkIfFirstSquareIsSmallerAndValid(io_userData)) {
             validInput = false;
         }
+
         if (io_userData.getStartSquareRowNum() != io_userData.getEndSquareRowNum() &&
                io_userData.getStartSquareColNum() != io_userData.getEndSquareColNum() ){
             validInput = false;
@@ -380,7 +397,7 @@ public class GameManager {
         Boolean startSquareIsSmallerAndValid = true;
 
         if (io_userData.getStartSquareRowNum() > io_userData.getEndSquareRowNum() ||
-                io_userData.getEndSquareColNum() > io_userData.getEndSquareColNum() ||
+                io_userData.getStartSquareColNum() > io_userData.getEndSquareColNum() ||
                 (io_userData.getStartSquareRowNum() < 1) || io_userData.getEndSquareColNum() < 1) {
             startSquareIsSmallerAndValid= false;
         }
@@ -388,24 +405,17 @@ public class GameManager {
         return startSquareIsSmallerAndValid;
     }
 
-    private Boolean validateChangeTo(UserMoveData io_userData) {
+    private Boolean validateChangeTo(UserMoveData io_userData, String i_requestedMove) {
         Boolean validInput = true;
-        String inputChar;
 
-        if (InputScanner.scanner.hasNext()) {
-            inputChar = InputScanner.scanner.next();
-            if (inputChar.equalsIgnoreCase("b")){
-                io_userData.setSign(Square.eSquareSign.BLACKED);
-            }
-            else if(inputChar.equalsIgnoreCase("c")) {
-                io_userData.setSign(Square.eSquareSign.CLEARED);
-            }
-            else if(inputChar.equalsIgnoreCase("u")){
-                io_userData.setSign(Square.eSquareSign.UNDEFINED);
-            }
-            else{
-                validInput = false;
-            }
+        if (i_requestedMove.equalsIgnoreCase("b")){
+            io_userData.setSign(Square.eSquareSign.BLACKED);
+        }
+        else if(i_requestedMove.equalsIgnoreCase("c")) {
+            io_userData.setSign(Square.eSquareSign.CLEARED);
+        }
+            else if(i_requestedMove.equalsIgnoreCase("u")){
+            io_userData.setSign(Square.eSquareSign.UNDEFINED);
         }
         else {
             validInput = false;
@@ -414,9 +424,9 @@ public class GameManager {
         return validInput;
     }
 
-    private void getComment(UserMoveData io_userData) {
-        if (InputScanner.scanner.hasNext()) {
-            io_userData.setComment(InputScanner.scanner.nextLine());
+    private void getComment(UserMoveData io_userData, String i_requestedMove) {
+        if (i_requestedMove != null) {
+            io_userData.setComment(i_requestedMove);
         }
     }
 
