@@ -378,6 +378,10 @@ public class GameManager {
                 o_rowNumE, o_colNumE)) {
             validInput = false;
         }
+        if (o_rowNumS != o_rowNumE && o_colNumS != o_colNumE ){
+            validInput = false;
+        }
+
         return validInput;
     }
 
