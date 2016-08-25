@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
+ * This class is in charge of the game engine, and Ui.
  */
 public class GameManager {
     private GameBoard m_GameBoard;

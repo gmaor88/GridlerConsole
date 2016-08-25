@@ -9,6 +9,7 @@ import java.io.File;
 
 /**
  * Created by Maor Gershkovitch on 8/17/2016.
+ * for JaxB
  */
 public class JaxBGridlerClassGenerator {
     public static GameDescriptor FromXmlFileToObject (String i_fileName) throws JAXBException{

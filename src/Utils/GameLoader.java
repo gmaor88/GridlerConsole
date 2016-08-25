@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 /**
  * Created by dan on 8/19/2016.
+ * Class for handling the parsing and of the given xml.
+ * Verifies the data from the xml is in the right form.
  */
 
 

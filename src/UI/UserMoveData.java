@@ -4,6 +4,7 @@ import Logic.Square;
 
 /**
  * Created by Maor Gershkovitch on 8/24/2016.
+ * This class is for holding the current player move request.
  */
 public class UserMoveData {
 
