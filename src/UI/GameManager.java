@@ -290,6 +290,11 @@ public class GameManager {
         int startRow,startCol, endRow, endCol;
         Square.eSquareSign sign;
 
+        /*
+        *runs until one of the conditions have been meet
+        * selects randomly which blocks should be changed and to what sign
+        * if there have been no progress from the selection it will choose to undo its move
+         */
         while (m_Player.checkIfPlayerHasMovesLeft() && m_GameBoard.getBoardCompletionPercentage() != 100){
             sign = randSign(rand);
             startRow = rand.nextInt(m_GameBoard.getBoardHeight()) + 1;

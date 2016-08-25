@@ -20,6 +20,7 @@ public class GameLoader {
         int columnIndex, rowIndex;
         GameBoard board;
 
+        //get basic data from xml and look for exceptions
         if(!i_GameDescriptor.getGameType().equalsIgnoreCase("singleplayer")){
             throw new GameLoadException("Invalid Format");
         }
@@ -37,6 +38,7 @@ public class GameLoader {
 
         board = new GameBoard(rows,columns);
 
+        //gets slices from xml file while also looking for exceptions
         for(int i = 0; i < numberOfSlices ; i++){
             blocks = getBlocks(i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getBlocks());
             slicesId = i_GameDescriptor.getBoard().getDefinition().getSlices().getSlice().get(i).getId().intValue() - 1;
@@ -59,6 +61,7 @@ public class GameLoader {
             }
         }
 
+        //inserts true value to designated squares
         for(int i = 0; i < numberOfBlackSquares; i++) {
             rowIndex = i_GameDescriptor.getBoard().getSolution().getSquare().get(i).getRow().intValue();
             columnIndex = i_GameDescriptor.getBoard().getSolution().getSquare().get(i).getColumn().intValue();
