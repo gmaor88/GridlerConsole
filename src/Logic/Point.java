@@ -2,13 +2,15 @@ package Logic;
 
 /**
  * Created by Maor Gershkovitch on 8/21/2016.
+ * logic class used by MoveSet a point is much like class Square only it knows its position on the game board
+ * and its current sign only
  */
 public class Point {
-    Integer m_RowCord;
-    Integer m_ColCord;
-    Square.eSquareSign m_Sign;
+    private Integer m_RowCord;
+    private Integer m_ColCord;
+    private Square.eSquareSign m_Sign;
 
-    public Point( Integer i_RowCord, Integer i_ColCord, Square.eSquareSign i_Sign){
+    Point(Integer i_RowCord, Integer i_ColCord, Square.eSquareSign i_Sign){
         m_RowCord = i_RowCord;
         m_ColCord = i_ColCord;
         m_Sign = i_Sign;

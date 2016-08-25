@@ -2,6 +2,7 @@ package Logic;
 
 /**
  * Created by dan on 8/23/2016.
+ * logic class which defines a block - number of black squares in a row
  */
 public class Block {
     private final Integer f_Size;
@@ -13,15 +14,15 @@ public class Block {
         f_Size = i_Size;
     }
 
-    public void setMarked(Boolean m_Marked) {
+    void setMarked(Boolean m_Marked) {
         this.m_Marked = m_Marked;
     }
 
-    public Boolean isMarked() {
+    Boolean isMarked() {
         return m_Marked;
     }
 
-    public Integer getSize() {
+    Integer getSize() {
         return f_Size;
     }
 

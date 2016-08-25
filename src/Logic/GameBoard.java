@@ -6,6 +6,7 @@ import Utils.GameLoadException;
 
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
+ * logic class which holds the sum of most of the logic package and defines the full griddler board
  */
 public class GameBoard {
 
@@ -142,6 +143,10 @@ public class GameBoard {
     private void blocksScanner(int i_AmountToScan, int i_LengthOfScan, boolean i_HorizontalScan){
         int blockSizeCounter = 0;
 
+        /*
+        * runs on the board and finds black squares once a sequence has been found it looks for the relevant block
+        * in the appropriate place if found it signals the block of the occurrence
+         */
         for(int i = 0; i < i_AmountToScan; i++){
             for(int j = 0; j < i_LengthOfScan; j++){
                 if(i_HorizontalScan) {

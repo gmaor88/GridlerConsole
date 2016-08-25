@@ -2,6 +2,7 @@ package Logic;
 
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
+ * logic class which defines a square on the game board it knows its current value and what its true value should be
  */
 public class Square {
     private eSquareSign m_CurrentSquareSign = eSquareSign.UNDEFINED;

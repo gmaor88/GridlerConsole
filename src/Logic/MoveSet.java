@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 /**
  * Created by Maor Gershkovitch on 8/19/2016.
+ * logic class which saves and defines the player moves - used for undo and redo
  */
 public class MoveSet {
     private LinkedList<Point> m_PointsList = new LinkedList<>();

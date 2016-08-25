@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 /**
  * Created by Maor Gershkovitch on 8/8/2016.
+ * logic class which contains all relevant player data
  */
 public class GamePlayer {
     private final String f_Name;
