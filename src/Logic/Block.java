@@ -18,7 +18,7 @@ public class Block {
         this.m_Marked = m_Marked;
     }
 
-    Boolean isMarked() {
+    public Boolean isMarked() {
         return m_Marked;
     }
 
@@ -30,12 +30,12 @@ public class Block {
     public String toString() {
         String str;
 
-        if(m_Marked){
-            str = ANSI_RED + f_Size.toString() + ANSI_RESET;
-        }
-        else{
+        //if(m_Marked){
+          //  str = ANSI_RED + f_Size.toString() + ANSI_RESET;
+        //}
+        //else{
             str = f_Size.toString();
-        }
+        //}
 
         return str;
     }

@@ -2,6 +2,7 @@ package UI;
 
 import Logic.*;
 import Utils.*;
+import javafx.scene.paint.Color;
 import jaxb.GameDescriptor;
 import javax.xml.bind.JAXBException;
 import java.util.LinkedList;
@@ -220,8 +221,13 @@ public class GameManager {
             }
 
             System.out.print("|");
-            for(Block j:m_GameBoard.getHorizontalSlice(i - 1)){
-                System.out.print(j.toString() + " ");
+            for(Block block:m_GameBoard.getHorizontalSlice(i - 1)){
+                if(block.isMarked()){
+                    System.out.print("*" + block.toString() + " ");//changed from color sign to this because of compatibility
+                }
+                else {
+                    System.out.print(block.toString() + " ");
+                }
             }
 
             System.out.print(System.getProperty("line.separator"));
@@ -233,7 +239,14 @@ public class GameManager {
         for (int i = 0; i < m_GameBoard.getMaxVerticalSlicesLength(); i++) {
             for (int j = 0; j < m_GameBoard.getBoardWidth(); j++) {
                 if(i < m_GameBoard.getVerticalSlice(j).size()){
-                    System.out.print("|" + m_GameBoard.getVerticalSlice(j).get(i).toString());
+                    if(m_GameBoard.getVerticalSlice(j).get(i).isMarked()){
+                        System.out.print("/");
+                    }
+                    else{
+                        System.out.print("|");
+                    }
+
+                        System.out.print(m_GameBoard.getVerticalSlice(j).get(i).toString());
                 }
                 else {
                     System.out.print("| ");
