@@ -19,6 +19,7 @@ public class GameManager {
     private Boolean m_PlayerWantsToPlay = true;
     private Boolean m_InGame = false;
     private Boolean m_GameReady = false;
+    private Boolean m_StatisticsReady = false;
     private Long m_GameDurationTimer;
 
     public GameManager() {
@@ -26,6 +27,7 @@ public class GameManager {
 
     public void Run() {
         while (m_PlayerWantsToPlay) {
+            findAndPresentVictory();
             presentMainMenu();
             eGameOptions choice = getPlayersChoiceForMenu();
             switch (choice) {
@@ -64,6 +66,17 @@ public class GameManager {
         }
     }
 
+    private void findAndPresentVictory() {
+        if(m_InGame) {
+            if (m_GameBoard.getBoardCompletionPercentage() == 100) {
+                System.out.print("Congratulations " + m_Player.getName() + ", ");
+                System.out.print("have won the game!!." + System.lineSeparator());
+                m_InGame = false;
+                m_GameReady = false;
+            }
+        }
+    }
+
     private void presentMainMenu() {
         int i = 1;
 
@@ -92,6 +105,7 @@ public class GameManager {
             validateGameDescriptorInfo(gameDescriptor);
             loadPlayerData(gameDescriptor);
             m_GameReady = true;
+            m_StatisticsReady = true;
         } catch (JAXBException e) {
             System.out.println("Illegal file.");
         } catch (GameLoadException ex) {
@@ -430,7 +444,7 @@ public class GameManager {
     }
 
     private void printPlayersMovesList() {
-        if(!m_InGame || m_Player.getMoveList().size() == 0) {
+        if(!m_StatisticsReady || m_Player.getMoveList().size() == 0) {
             System.out.println("Move list is unavailable");
             return;
         }
@@ -490,7 +504,7 @@ public class GameManager {
     }
 
     private void printStatistics() {
-        if (!m_InGame){
+        if (!m_StatisticsReady){
             System.out.println("Statistics unavailable");
             return;
         }
