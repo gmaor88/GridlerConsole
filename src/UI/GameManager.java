@@ -333,21 +333,21 @@ public class GameManager {
         String requestedMove = InputScanner.scanner.nextLine();
 
         if(!requestedMove.contains(",") || !requestedMove.contains(".") ){
-            throw new BadMoveInputException();
+            throw new BadMoveInputException("not enough . or , detected");
         }
 
         String userDataString[] = requestedMove.split(Pattern.quote("."));
 
         if(userDataString.length > 3){
-            throw new BadMoveInputException();
+            throw new BadMoveInputException("Too many . detected");
         }
 
         if (!parseToSquares(userData, userDataString[0])) {
-            throw new BadMoveInputException();
+            throw new BadMoveInputException("Bad square choice input");
         }
 
         if (!validateChangeTo(userData, userDataString[1])) {
-            throw new BadMoveInputException();
+            throw new BadMoveInputException("Bad coloring choice input.");
         }
 
         if(userDataString.length == 3) //user entered a comment
@@ -370,7 +370,7 @@ public class GameManager {
 
         for(String str : i_requestedMove.split(",")){
             if(!Tools.tryParseInt(str) || i > 3) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Bad square choice input");
             }
             intermediate[i] = Integer.parseInt(str);
             i++;
@@ -381,12 +381,12 @@ public class GameManager {
         io_userData.setEndSquareRowNum(intermediate[2]);
         io_userData.setEndSquareColNum(intermediate[3]);
         if (!checkIfFirstSquareIsSmallerAndValid(io_userData)) {
-            validInput = false;
+            return !validInput;
         }
 
         if (io_userData.getStartSquareRowNum() != io_userData.getEndSquareRowNum() &&
                io_userData.getStartSquareColNum() != io_userData.getEndSquareColNum() ){
-            validInput = false;
+            return !validInput;
         }
 
         return validInput;
